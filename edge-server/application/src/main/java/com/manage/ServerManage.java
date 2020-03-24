@@ -1,11 +1,18 @@
 package com.manage;
 
+import com.business.DefaultBusinessHandler;
+import com.business.YXHandler;
 import com.init.Initialization;
 import com.toolutils.ConstantUtils;
-import com.transmission.AbstractBootServer;
-import com.transmission.BootServerParameter;
-import com.transmission.TcpServer;
+import com.transmission.business.BusinessHandler;
+import com.transmission.server.core.AbstractBootServer;
+import com.transmission.server.core.BootServerParameter;
+import com.transmission.server.TcpServer;
+import lib.ToolUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+import java.io.File;
 
 /**
  * @ClassName ServerManageController
@@ -18,7 +25,19 @@ import org.springframework.stereotype.Component;
 public class ServerManage {
 
 
-    public synchronized Boolean createService(BootServerParameter bootServerParameter) throws Exception {
+    public synchronized void createService(BootServerParameter bootServerParameter) throws Exception {
+
+        if (!StringUtils.isEmpty(bootServerParameter.getHandlerClassName()) && !StringUtils.isEmpty(bootServerParameter.getHandlerJarFile())) {
+            Class<?> clazz;
+            try {
+                clazz = ToolUtils.getClass(new File(bootServerParameter.getHandlerJarFile()), bootServerParameter.getHandlerClassName());
+                bootServerParameter.setHandler(new YXHandler((BusinessHandler) clazz.newInstance()));
+            } catch (Exception e) {
+                new Exception("服务初始化错误" + e.getMessage());
+            }
+        } else {
+            bootServerParameter.setHandler(new YXHandler(new DefaultBusinessHandler()));
+        }
         AbstractBootServer cloudIotServer = null;
         String serverType = bootServerParameter.getServerType();
         if (ConstantUtils.TCP.equals(serverType)) {
@@ -31,14 +50,13 @@ public class ServerManage {
             throw new Exception("服务类型出错");
         }
         if (cloudIotServer != null) {
-            if (cloudIotServer.init() && cloudIotServer == Initialization.cloudIotServerMap.putIfAbsent(cloudIotServer.getServiceId(), cloudIotServer)) {
-                // todo 服务信息入库
+            if (null == Initialization.cloudIotServerMap.putIfAbsent(cloudIotServer.getServiceId(), cloudIotServer)) {
+                 cloudIotServer.init();
 
+                // todo 服务信息入库
                 /*cloudIotServer.start();*/
-                return true;
-            }
+            } else  throw new Exception("服务初始化错误");
         }
-        return false;
     }
 
 

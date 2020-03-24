@@ -26,7 +26,7 @@ public class WriteMsgUtils {
         IoSession session;
         for (Map.Entry<Long, IoSession> entry : mapList.entrySet()) {
             session = entry.getValue();
-            if (regId.equals(session.getAttribute("regId", null))) {
+            if (regId.equals(session.getAttribute(ConstantUtils.REG_ID, null))) {
                 return session;
             }
 

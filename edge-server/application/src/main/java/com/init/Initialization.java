@@ -1,12 +1,10 @@
 package com.init;
 
-import com.transmission.AbstractBootServer;
+import com.transmission.server.core.AbstractBootServer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -22,10 +20,16 @@ public class Initialization {
 
     public static volatile Map<String,AbstractBootServer> cloudIotServerMap = new ConcurrentHashMap<>();
 
-    @Value("${sysConf.jarBasePath}")
-    private String jarBasePath;
+    @Value("${sysConf.handlerJarFileBasePath}")
+    private String handlerJarFileBasePath;
 
-    private String curJar;
+    @Value("${sysConf.decodePluginBasePath}")
+    private String decodePluginBasePath;
+
+
+    private String curHandler;
+    private String curDecodePlugin;
+    private String curDecodePluginClass;
 
 
 
@@ -35,15 +39,35 @@ public class Initialization {
        // todo 加载数据
     }
 
-    public String getJarBasePath() {
-        return jarBasePath;
+    public String getHandlerJarFileBasePath() {
+        return handlerJarFileBasePath;
     }
 
-    public String getCurJar() {
-        return curJar;
+    public String getDecodePluginBasePath() {
+        return decodePluginBasePath;
     }
 
-    public void setCurJar(String curJar) {
-        this.curJar = curJar;
+    public String getCurHandler() {
+        return curHandler;
+    }
+
+    public String getCurDecodePlugin() {
+        return curDecodePlugin;
+    }
+
+    public void setCurHandler(String curHandler) {
+        this.curHandler = curHandler;
+    }
+
+    public void setCurDecodePlugin(String curDecodePlugin) {
+        this.curDecodePlugin = curDecodePlugin;
+    }
+
+    public String getCurDecodePluginClass() {
+        return curDecodePluginClass;
+    }
+
+    public void setCurDecodePluginClass(String curDecodePluginClass) {
+        this.curDecodePluginClass = curDecodePluginClass;
     }
 }

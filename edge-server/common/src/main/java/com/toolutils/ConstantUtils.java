@@ -15,6 +15,8 @@ public class ConstantUtils {
     public static final String DEVICE_ADDRESS = "address";
     public static final String ACTIVITY_TIME = "activityTime";
     public static final String REGISTER_TIME = "registerTime";
+    public static final String REG_STATUS = "regStatus";
+
 
     public static final String TCP = "Tcp";
     public static final String UDP = "Udp";
