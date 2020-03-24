@@ -8,6 +8,7 @@ import com.transmission.business.BusinessHandler;
 import com.transmission.server.core.AbstractBootServer;
 import com.transmission.server.core.BootServerParameter;
 import com.transmission.server.TcpServer;
+import com.transmission.server.core.ServerUtils;
 import lib.ToolUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -50,7 +51,7 @@ public class ServerManage {
             throw new Exception("服务类型出错");
         }
         if (cloudIotServer != null) {
-            if (null == Initialization.cloudIotServerMap.putIfAbsent(cloudIotServer.getServiceId(), cloudIotServer)) {
+            if (null == ServerUtils.add(bootServerParameter.getServiceId(),cloudIotServer)) {
                  cloudIotServer.init();
 
                 // todo 服务信息入库
@@ -72,7 +73,7 @@ public class ServerManage {
     }
 
     public AbstractBootServer getCloudIotServer(String serviceId) {
-        return Initialization.cloudIotServerMap.get(serviceId);
+        return (AbstractBootServer) ServerUtils.getServer(serviceId);
     }
 
     public void stopServer(String serviceId) {
@@ -91,7 +92,7 @@ public class ServerManage {
 
     public void delServer(String serviceId) {
         stopServer(serviceId);
-        Initialization.cloudIotServerMap.remove(serviceId);
+        ServerUtils.remove(serviceId);
         {
             // todo del db
         }

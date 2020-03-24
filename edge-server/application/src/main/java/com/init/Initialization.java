@@ -1,6 +1,7 @@
 package com.init;
 
 import com.transmission.server.core.AbstractBootServer;
+import com.transmission.server.debug.DebugService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,13 +19,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class Initialization {
 
-    public static volatile Map<String,AbstractBootServer> cloudIotServerMap = new ConcurrentHashMap<>();
+    @Value("${sysConf.resourcePath}")
+    private String resourcePath;
 
     @Value("${sysConf.handlerJarFileBasePath}")
     private String handlerJarFileBasePath;
 
     @Value("${sysConf.decodePluginBasePath}")
     private String decodePluginBasePath;
+
+    @Value("${sysConf.debugPort}")
+    private Integer debugPort;
 
 
     private String curHandler;
@@ -37,6 +42,7 @@ public class Initialization {
     @PostConstruct
     public void init(){
        // todo 加载数据
+        new DebugService(debugPort).start();
     }
 
     public String getHandlerJarFileBasePath() {
@@ -69,5 +75,13 @@ public class Initialization {
 
     public void setCurDecodePluginClass(String curDecodePluginClass) {
         this.curDecodePluginClass = curDecodePluginClass;
+    }
+
+    public String getResourcePath() {
+        return resourcePath;
+    }
+
+    public void setResourcePath(String resourcePath) {
+        this.resourcePath = resourcePath;
     }
 }
