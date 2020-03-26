@@ -43,7 +43,7 @@ public class DebugFilter extends IoFilterAdapter {
 		DebugService debugServer = (DebugService) ServerUtils.getServer("debug");
 
 		if (debugServer != null){
-			WriteMsgUtils.sendMsg(debugServer.getManagedSessions(),debugMsg);
+			WriteMsgUtils.sendMsg(debugServer.getManagedSessions(),JSON.toJSONString(debugMsg));
 
 		}
 

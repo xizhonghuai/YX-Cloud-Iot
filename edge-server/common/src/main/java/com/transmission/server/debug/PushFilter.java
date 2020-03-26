@@ -25,6 +25,7 @@ public class PushFilter extends IoFilterAdapter {
 		this.serviceId = serviceId;
 	}
 
+	//from device
 	public void messageReceived(NextFilter nextFilter, IoSession session, Object message) throws Exception {
 		nextFilter.messageReceived(session, message);
 

@@ -39,9 +39,7 @@ public class DefaultBusinessHandler implements BusinessHandler {
             MessageDecodePlugin defaultMessageDecode = new DefaultMessageDecode();
             defaultMessageDecode.messageReceived(iotSession,message);
             defaultMessageDecode.messageForward(message);
-            {
-                //todo 业务数据多协议转发
-            }
+
         } else {
 
             try {

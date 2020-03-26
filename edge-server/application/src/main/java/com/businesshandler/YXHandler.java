@@ -63,11 +63,17 @@ public class YXHandler extends Handler {
         if ((Boolean) session.getAttribute(ConstantUtils.REG_STATUS, false)) {
             businessHandler.messageReceived(iotSession, message);
             businessHandler.forward(message);
+
+            {
+                //todo 业务数据多协议转发
+            }
         } else {
 
             try {
                 RegMsg regMsg = (RegMsg) JSON.parse(message.toString());
                 {
+                     iotSession.setDeviceId(regMsg.getRegId());
+
                     //todo device 授权校验逻辑
                 }
 

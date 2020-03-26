@@ -73,7 +73,7 @@ public class IotSession {
 
     public String getDeviceId() {
 
-        return (String) getAttribute(ConstantUtils.REG_ID, "no regId");
+        return (String) getAttribute(ConstantUtils.REG_ID,null);
     }
 
     public String getServiceId() {

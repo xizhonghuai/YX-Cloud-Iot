@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
 /**
  * @ClassName DefaultMessageDecode
  * @Description: TODO
@@ -41,7 +43,7 @@ public class DefaultMessageDecode implements MessageDecodePlugin {
             deviceMsgDO.setDeviceId(msgBody.getDeviceId());
 //            deviceMsgDO.setDeviceId(iotSession.getDeviceId());
             deviceMsgDO.setMsgBody(JSON.toJSONString(msgBody));
-            deviceMsgDO.setCreateDate(msgBody.getDate());
+            deviceMsgDO.setCreateDate(new Date());
 
             DeviceShadow.shadow.put(iotSession.getServiceId()+msgBody.getDeviceId(),msgBody);
 
