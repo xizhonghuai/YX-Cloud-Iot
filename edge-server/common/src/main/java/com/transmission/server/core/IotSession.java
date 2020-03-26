@@ -31,7 +31,6 @@ public class IotSession {
     }
 
 
-
     public void setAttribute(Object key, Object value) {
         session.setAttributeIfAbsent(key, value);
     }
@@ -55,7 +54,7 @@ public class IotSession {
         }
     }
 
-    public void close(){
+    public void close() {
         this.session.close(true);
     }
 
@@ -74,9 +73,28 @@ public class IotSession {
 
     public String getDeviceId() {
 
-        return (String) getAttribute(ConstantUtils.REG_ID, null);
+        return (String) getAttribute(ConstantUtils.REG_ID, "no regId");
     }
 
+    public String getServiceId() {
+        return (String) session.getAttribute(ConstantUtils.SERVICE_ID);
+    }
+
+    public void setServiceId(String serviceId) {
+        session.setAttribute(ConstantUtils.SERVICE_ID,serviceId);
+    }
+
+
+
+    public String getRemoteAddress() {
+
+        return session.getRemoteAddress().toString();
+    }
+
+    public String getDevice() {
+        return getDeviceId() + "/" + getRemoteAddress();
+
+    }
 
     public Boolean insertDataBase(Object data) {
         String jsonStr = JSON.toJSONString(data);

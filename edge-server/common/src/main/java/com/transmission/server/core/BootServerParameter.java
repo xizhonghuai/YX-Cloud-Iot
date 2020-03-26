@@ -1,6 +1,6 @@
 package com.transmission.server.core;
 
-import com.transmission.business.decodeplugin.Handler;
+import com.transmission.business.Handler;
 import lib.UserToken;
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.transmission.business.decodeplugin;
+package com.transmission.decodeplugin;
 
 import com.transmission.server.core.IotSession;
 

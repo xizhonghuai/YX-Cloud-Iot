@@ -5,6 +5,7 @@ import com.manage.DeviceManage;
 import com.manage.ServerManage;
 import com.model.PluginDo;
 import com.service.PluginService;
+import com.toolutils.ConstantUtils;
 import com.transmission.server.core.BootServerParameter;
 import io.swagger.annotations.*;
 import lib.FileUntis;
@@ -44,7 +45,6 @@ public class ServerManageController {
             @ApiImplicitParam(paramType = "query", name = "serviceId", dataType = "String", required = true, value = "服务id"),
             @ApiImplicitParam(paramType = "query", name = "port", dataType = "Integer", required = true, value = "监听端口"),
             @ApiImplicitParam(paramType = "query", name = "idle", dataType = "Integer", required = true, value = "读写空闲时间"),
-            @ApiImplicitParam(paramType = "query", name = "handlerClassName", dataType = "String", required = false, value = "非必需参数")
     })
 
     @ApiResponses({
@@ -54,13 +54,12 @@ public class ServerManageController {
     @RequestMapping(value = "/createServiceDemo", method = RequestMethod.POST)
     public RestResult createServiceDemo(@RequestParam("serviceId") String serviceId,
                                         @RequestParam("port") Integer port,
-                                        @RequestParam("idle") Integer idle,
-                                        @RequestParam(value = "handlerClassName", required = false) String handlerClassName
+                                        @RequestParam("idle") Integer idle
                                         ){
 
 
         BootServerParameter bootServerParameter = new BootServerParameter();
-        bootServerParameter.setServerType("Tcp");
+        bootServerParameter.setServerType(ConstantUtils.TCP);
         bootServerParameter.setServiceId(serviceId);
         List<Integer> ports = new ArrayList<>();
         ports.add(port);
@@ -79,7 +78,7 @@ public class ServerManageController {
     }
 
 
-    @ApiOperation(value = "上传逻辑处理jar包文件", httpMethod = "POST")
+    @ApiOperation(value = "上传自定义业务处理handler包文件", httpMethod = "POST")
     @RequestMapping(value = "/handlerUpload", method = RequestMethod.POST)
     public RestResult handlerUpload(@RequestParam("file") MultipartFile file){
 
@@ -102,7 +101,7 @@ public class ServerManageController {
         return new RestResult();
     }
 
-    @ApiOperation(value = "上传解码插件", httpMethod = "POST")
+    @ApiOperation(value = "上传数据解码插件", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", required = true, value = "解码插件类名称"),
     })

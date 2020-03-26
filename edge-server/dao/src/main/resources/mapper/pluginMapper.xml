@@ -15,7 +15,7 @@
   <sql id="Base_Column_List">
     id, user_id, jar_url,execute_class,jar_name,edit_date,description
   </sql>
-  <select id="selectById"   resultMap="BaseResultMap">
+  <select id="selectById" resultMap="BaseResultMap">
 
    SELECT t1.*,t2.user_name from(
        (select

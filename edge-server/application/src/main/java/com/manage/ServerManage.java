@@ -1,10 +1,10 @@
 package com.manage;
 
-import com.business.DefaultBusinessHandler;
-import com.business.YXHandler;
-import com.init.Initialization;
+import com.businesshandler.DefaultBusinessHandler;
+import com.businesshandler.YXHandler;
 import com.toolutils.ConstantUtils;
 import com.transmission.business.BusinessHandler;
+import com.transmission.business.Handler;
 import com.transmission.server.core.AbstractBootServer;
 import com.transmission.server.core.BootServerParameter;
 import com.transmission.server.TcpServer;
@@ -32,12 +32,16 @@ public class ServerManage {
             Class<?> clazz;
             try {
                 clazz = ToolUtils.getClass(new File(bootServerParameter.getHandlerJarFile()), bootServerParameter.getHandlerClassName());
-                bootServerParameter.setHandler(new YXHandler((BusinessHandler) clazz.newInstance()));
+                YXHandler yxHandler = new YXHandler((BusinessHandler) clazz.newInstance());
+                yxHandler.setServiceId(bootServerParameter.getServiceId());
+                bootServerParameter.setHandler(yxHandler);
             } catch (Exception e) {
                 new Exception("服务初始化错误" + e.getMessage());
             }
         } else {
-            bootServerParameter.setHandler(new YXHandler(new DefaultBusinessHandler()));
+            YXHandler yxHandler = new YXHandler( new DefaultBusinessHandler());
+            yxHandler.setServiceId(bootServerParameter.getServiceId());
+            bootServerParameter.setHandler(yxHandler);
         }
         AbstractBootServer cloudIotServer = null;
         String serverType = bootServerParameter.getServerType();

@@ -1,4 +1,4 @@
-package com.transmission.business.decodeplugin;
+package com.transmission.business;
 
 import com.transmission.business.BusinessHandler;
 import org.apache.mina.core.service.IoHandlerAdapter;

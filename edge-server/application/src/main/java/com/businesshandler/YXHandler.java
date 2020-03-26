@@ -1,9 +1,9 @@
-package com.business;
+package com.businesshandler;
 
 import com.alibaba.fastjson.JSON;
 import com.toolutils.ConstantUtils;
 import com.transmission.business.BusinessHandler;
-import com.transmission.business.decodeplugin.Handler;
+import com.transmission.business.Handler;
 import com.transmission.server.core.IotSession;
 import com.transmission.server.core.RegMsg;
 import lombok.extern.slf4j.Slf4j;
@@ -24,20 +24,31 @@ public class YXHandler extends Handler {
         super(businessHandler);
     }
 
+    private IotSession iotSession;
+
+    private String serviceId;
+
+
+    public void setServiceId(String serviceId){
+       this.serviceId  = serviceId;
+    }
+
     @Override
     public void sessionOpened(IoSession session) {
         log.info(session.getRemoteAddress() + "连接");
-        businessHandler.sessionOpened(new IotSession(session));
+        iotSession = new IotSession(session);
+        iotSession.setServiceId(serviceId);
+        businessHandler.sessionOpened(iotSession);
     }
 
     @Override
     public void sessionClosed(IoSession session) {
-        businessHandler.sessionClosed(new IotSession(session));
+        businessHandler.sessionClosed(iotSession);
     }
 
     @Override
     public void sessionIdle(IoSession session, IdleStatus status) {
-        businessHandler.sessionIdle(new IotSession(session));
+        businessHandler.sessionIdle(iotSession);
     }
 
     @Override
@@ -50,7 +61,7 @@ public class YXHandler extends Handler {
 
         session.setAttribute(ConstantUtils.REG_STATUS, true);//todo debug
         if ((Boolean) session.getAttribute(ConstantUtils.REG_STATUS, false)) {
-            businessHandler.messageReceived(new IotSession(session), message);
+            businessHandler.messageReceived(iotSession, message);
             businessHandler.forward(message);
         } else {
 

@@ -1,6 +1,7 @@
 server:
   port: 8080
 
+
 sysConf:
   handlerJarFileBasePath: C:\yxcloud\handlers
   decodePluginBasePath: C:\yxcloud\decodeplugins

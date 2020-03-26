@@ -9,6 +9,9 @@ package com.toolutils;
  **/
 public class ConstantUtils {
 
+    public static final String SERVICE_ID = "serviceId";
+    public static final String DEVICE_ID = "deviceId";
+
     public static final String REG_ID = "regId";
     public static final String CLOUD_USER = "cloudUser";
     public static final String AUTH_CODE = "authCode";
