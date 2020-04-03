@@ -19,14 +19,15 @@ public class IotSession {
 
 
     private IoSession session;
-    private List<Object> dataContainer;
+    private List<Object> forwardMessageContainer;
+    private Object forwardMessage;
 
     public IotSession(IoSession session) {
         this.session = session;
-        if (session.getAttribute("dataContainer") == null) {
-            session.setAttribute("dataContainer", new LinkedList<>());
+        if (session.getAttribute("forwardMessageContainer") == null) {
+            session.setAttribute("forwardMessageContainer", new LinkedList<>());
         } else {
-            dataContainer = (List<Object>) session.getAttribute("dataContainer");
+            forwardMessageContainer = (List<Object>) session.getAttribute("forwardMessageContainer");
         }
     }
 
@@ -103,20 +104,29 @@ public class IotSession {
         return true;
     }
 
-    public void appendDataContainer(Object data) {
-        dataContainer.add(data);
+
+    public Object getForwardMessage() {
+        return forwardMessage;
+    }
+
+    public void setForwardMessage(Object forwardMessage) {
+        this.forwardMessage = forwardMessage;
+    }
+
+    public void appendForwardMessageContainer(Object forwardMessage) {
+        forwardMessageContainer.add(forwardMessage);
     }
 
 
-    public void commit() {
-        if (dataContainer != null) {
-            dataContainer.forEach(o -> insertDataBase(o));
-            dataContainer.clear();
+    public void forwardMessageContainerCommit() {
+        if (forwardMessageContainer != null) {
+            forwardMessage = forwardMessageContainer;
+            forwardMessageContainer.clear();
         }
     }
 
-    public void clearDataContainer() {
-        dataContainer.clear();
+    public void clearForwardMessageContainer() {
+        forwardMessageContainer.clear();
     }
 
 }

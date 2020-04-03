@@ -51,7 +51,11 @@
             <version>26.0-jre</version>
         </dependency>
 
-
+   <!--     <dependency>
+            <groupId>org.apache.shardingsphere</groupId>
+            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+             <version></version>
+        </dependency>-->
 
 
 

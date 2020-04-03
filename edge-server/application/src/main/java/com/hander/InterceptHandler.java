@@ -1,6 +1,8 @@
-package com.businesshandler;
+package com.hander;
 
 import com.alibaba.fastjson.JSON;
+import com.msgpush.MessagePush;
+import com.msgpush.http.HttpPush;
 import com.toolutils.ConstantUtils;
 import com.transmission.business.BusinessHandler;
 import com.transmission.business.Handler;
@@ -9,18 +11,19 @@ import com.transmission.server.core.RegMsg;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+import org.springframework.util.StringUtils;
 
 /**
- * @ClassName HandlerBase
+ * @ClassName InterceptHandler
  * @Description: TODO
  * @Author xizhonghuai
  * @Date 2020/1/14
  * @Version V1.0
  **/
 @Slf4j
-public class YXHandler extends Handler {
+public class InterceptHandler extends Handler {
 
-    public YXHandler(BusinessHandler businessHandler) {
+    public InterceptHandler(BusinessHandler businessHandler) {
         super(businessHandler);
     }
 
@@ -29,8 +32,8 @@ public class YXHandler extends Handler {
     private String serviceId;
 
 
-    public void setServiceId(String serviceId){
-       this.serviceId  = serviceId;
+    public void setServiceId(String serviceId) {
+        this.serviceId = serviceId;
     }
 
     @Override
@@ -59,32 +62,44 @@ public class YXHandler extends Handler {
     @Override
     public void messageReceived(IoSession session, Object message) {
 
-        session.setAttribute(ConstantUtils.REG_STATUS, true);//todo debug
-        if ((Boolean) session.getAttribute(ConstantUtils.REG_STATUS, false)) {
-            businessHandler.messageReceived(iotSession, message);
-            businessHandler.forward(message);
-
-            {
-                //todo 业务数据多协议转发
-            }
-        } else {
-
+        if (!(Boolean) session.getAttribute(ConstantUtils.REG_STATUS, false)) {
             try {
-                RegMsg regMsg = (RegMsg) JSON.parse(message.toString());
-                {
-                     iotSession.setDeviceId(regMsg.getRegId());
+                RegMsg regMsg = (RegMsg) JSON.parseObject(message.toString(), RegMsg.class);
+                if (!StringUtils.isEmpty(regMsg.getRegId())){
 
                     //todo device 授权校验逻辑
+                    iotSession.setDeviceId(regMsg.getRegId());
+                    session.write("reg ok");
+                    session.setAttribute(ConstantUtils.REG_STATUS, true);
+                }else {
+                    session.write("Please send the registration package.");
                 }
-
-
             } catch (Exception e) {
-                session.write("unknown device active close");
-                session.close(true);
+                session.write("JSON validation error.");
+                //   session.close(true);
+                e.printStackTrace();
             }
 
+            return;
         }
+
+
+        businessHandler.messageReceived(iotSession, message);
+        {
+            //todo 业务数据多协议转发
+            MessagePush messagePush = new HttpPush();
+            messagePush.push(iotSession.getForwardMessage());
+
+        }
+
+
+        {  //todo 设备log 记录
+
+            //insert message
+
+
+        }
+
+
     }
-
-
 }

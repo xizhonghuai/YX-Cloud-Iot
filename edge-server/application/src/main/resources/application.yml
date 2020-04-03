@@ -7,6 +7,11 @@ sysConf:
   decodePluginBasePath: C:\yxcloud\decodeplugins
   resourcePath: C:\yxcloud\resources
   debugPort: 10373
+  defaultServerPort: 8083
+
+
+
+
 
 
 

@@ -48,7 +48,8 @@ public class TcpServer extends AbstractBootServer {
             }
 
             if (par.isPush()){
-                ioAcceptor.getFilterChain().addLast("push", new PushFilter(par.getServiceId()));
+                //todo 暂时屏蔽 提升性能
+//                ioAcceptor.getFilterChain().addLast("push", new PushFilter(par.getServiceId()));
             }
 
             // 设置读取缓冲区最大值

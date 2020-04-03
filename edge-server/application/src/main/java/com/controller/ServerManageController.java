@@ -56,8 +56,6 @@ public class ServerManageController {
                                         @RequestParam("port") Integer port,
                                         @RequestParam("idle") Integer idle
                                         ){
-
-
         BootServerParameter bootServerParameter = new BootServerParameter();
         bootServerParameter.setServerType(ConstantUtils.TCP);
         bootServerParameter.setServiceId(serviceId);

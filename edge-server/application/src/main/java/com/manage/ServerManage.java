@@ -1,10 +1,9 @@
 package com.manage;
 
 import com.businesshandler.DefaultBusinessHandler;
-import com.businesshandler.YXHandler;
+import com.hander.InterceptHandler;
 import com.toolutils.ConstantUtils;
 import com.transmission.business.BusinessHandler;
-import com.transmission.business.Handler;
 import com.transmission.server.core.AbstractBootServer;
 import com.transmission.server.core.BootServerParameter;
 import com.transmission.server.TcpServer;
@@ -32,14 +31,14 @@ public class ServerManage {
             Class<?> clazz;
             try {
                 clazz = ToolUtils.getClass(new File(bootServerParameter.getHandlerJarFile()), bootServerParameter.getHandlerClassName());
-                YXHandler yxHandler = new YXHandler((BusinessHandler) clazz.newInstance());
+                InterceptHandler yxHandler = new InterceptHandler((BusinessHandler) clazz.newInstance());
                 yxHandler.setServiceId(bootServerParameter.getServiceId());
                 bootServerParameter.setHandler(yxHandler);
             } catch (Exception e) {
                 new Exception("服务初始化错误" + e.getMessage());
             }
         } else {
-            YXHandler yxHandler = new YXHandler( new DefaultBusinessHandler());
+            InterceptHandler yxHandler = new InterceptHandler( new DefaultBusinessHandler());
             yxHandler.setServiceId(bootServerParameter.getServiceId());
             bootServerParameter.setHandler(yxHandler);
         }

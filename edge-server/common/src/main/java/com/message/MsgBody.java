@@ -1,5 +1,7 @@
 package com.message;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -12,8 +14,11 @@ import java.util.HashMap;
  **/
 public class MsgBody {
 
+    @JSONField(ordinal = 1)
     private String deviceId;
+    @JSONField(ordinal = 2)
     private Date date;
+    @JSONField(ordinal = 3)
     private HashMap<String,Object> kpi;
 
     public MsgBody() {

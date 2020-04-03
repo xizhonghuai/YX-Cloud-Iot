@@ -14,7 +14,7 @@ import java.util.List;
  * @Version V1.0
  **/
 @Data
-public class BootServerParameter extends UserToken {
+public class BootServerParameter {
 
     private String serverType;
     private String handlerClassName;

@@ -51,6 +51,8 @@
 
     </insert>
 
-
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM device_msg
+    </select>
 
 </mapper>

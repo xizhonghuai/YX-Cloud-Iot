@@ -37,6 +37,7 @@ public class DeviceMsgDO {
     @JSONField(serialize=false)
     private String msgBody;
 
+
     private HashMap<String,Object> messageBody;
 
     @JSONField(serialize=false)
