@@ -1,5 +1,7 @@
 package lib;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @ClassName RestResult
  * @Description: TODO
@@ -9,9 +11,13 @@ package lib;
  **/
 public class RestResult<T> {
 
+    @JSONField(ordinal = 1)
     private boolean result = true;
+    @JSONField(ordinal = 3)
     private String msg = "success";
+    @JSONField(ordinal = 2)
     private String resultCode = "200";
+    @JSONField(ordinal = 4)
     private T data;
 
     public RestResult() {
