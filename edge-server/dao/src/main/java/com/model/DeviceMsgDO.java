@@ -92,10 +92,7 @@ public class DeviceMsgDO {
         return messageBody;
     }
 
-   /* public void setMessageBody(HashMap<String, Object> messageBody) {
-        this.messageBody = messageBody;
-    }
-*/
+
     @Override
     public String toString() {
         return "DeviceMsgDO{" +

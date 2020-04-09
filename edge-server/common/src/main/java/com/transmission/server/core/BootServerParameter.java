@@ -4,6 +4,7 @@ import com.transmission.business.Handler;
 import lib.UserToken;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,6 +17,7 @@ import java.util.List;
 @Data
 public class BootServerParameter {
 
+    private String serverName;
     private String serverType;
     private String handlerClassName;
     private String handlerJarFile;
@@ -32,11 +34,16 @@ public class BootServerParameter {
     private List<Integer> port;
     private String comName;
     private Integer baud;
-    private String host;
 
+
+    private String host;
     private String topic;
     private String userName;
     private String passWord;
+
+    private Date date = new Date();
+
+
 
 
 }

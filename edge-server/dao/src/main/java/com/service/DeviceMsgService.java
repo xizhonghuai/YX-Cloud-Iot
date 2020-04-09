@@ -2,9 +2,7 @@ package com.service;
 
 import com.Dao;
 import com.mapper.DeviceMsgMapper;
-import com.mapper.PluginMapper;
 import com.model.DeviceMsgDO;
-import com.model.PluginDo;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,8 +25,8 @@ public class DeviceMsgService {
     private Dao dao;
 
 
-    public void insert(DeviceMsgDO deviceMsgDO) {
 
+    public void insert(DeviceMsgDO deviceMsgDO) {
         try (SqlSession sqlSession = dao.getSqlSessionFactory().openSession()) {
             sqlSession.getMapper(DeviceMsgMapper.class).insert(deviceMsgDO);
             sqlSession.commit();

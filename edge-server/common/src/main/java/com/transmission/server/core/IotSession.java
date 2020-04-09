@@ -21,6 +21,7 @@ public class IotSession {
     private IoSession session;
     private List<Object> forwardMessageContainer;
     private Object forwardMessage;
+    private Object toDBMessage;
 
     public IotSession(IoSession session) {
         this.session = session;
@@ -97,12 +98,12 @@ public class IotSession {
 
     }
 
-    public Boolean insertDataBase(Object data) {
+  /*  public Boolean insertDataBase(Object data) {
         String jsonStr = JSON.toJSONString(data);
 
         // TODO 数据入库逻辑，后续完善
         return true;
-    }
+    }*/
 
 
     public Object getForwardMessage() {
@@ -129,4 +130,11 @@ public class IotSession {
         forwardMessageContainer.clear();
     }
 
+    public Object getToDBMessage() {
+        return toDBMessage;
+    }
+
+    public void setToDBMessage(Object toDBMessage) {
+        this.toDBMessage = toDBMessage;
+    }
 }

@@ -20,7 +20,7 @@
         </environment>
     </environments>
     <mappers>
-        <mapper resource="mapper/pluginMapper.xml"/>
         <mapper resource="mapper/deviceMsgMapper.xml"/>
+        <mapper resource="mapper/deCodePluginMapper.xml"/>
     </mappers>
 </configuration>

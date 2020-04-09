@@ -25,11 +25,8 @@ import java.util.Date;
 public class DefaultMessageDecode implements MessageDecodePlugin {
 
 
-    private DeviceMsgService deviceMsgService;
-
     public DefaultMessageDecode() {
 
-        deviceMsgService = (DeviceMsgService) SpringUtil.getBean("deviceMsgService");
     }
 
     @Override
@@ -38,17 +35,8 @@ public class DefaultMessageDecode implements MessageDecodePlugin {
         iotSession.sendMsg(message.toString());
         try {
             MsgBody msgBody = (MsgBody) JSON.parseObject(message.toString(),MsgBody.class);
-            DeviceMsgDO deviceMsgDO = new DeviceMsgDO();
-            deviceMsgDO.setServiceId(iotSession.getServiceId());
-            deviceMsgDO.setDeviceId(msgBody.getDeviceId());
-//            deviceMsgDO.setDeviceId(iotSession.getDeviceId());
-            deviceMsgDO.setMsgBody(JSON.toJSONString(msgBody));
-            deviceMsgDO.setCreateDate(new Date());
-
             DeviceShadow.shadow.put(iotSession.getServiceId()+msgBody.getDeviceId(),msgBody);
-
-            deviceMsgService.insert(deviceMsgDO);
-
+            iotSession.setToDBMessage(msgBody);
         } catch (Exception e) {
             iotSession.sendMsg("err "+e.toString());
         }

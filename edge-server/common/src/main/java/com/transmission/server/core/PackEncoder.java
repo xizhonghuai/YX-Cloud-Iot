@@ -19,7 +19,7 @@ public class PackEncoder implements ProtocolEncoder {
     private final Charset charset;
 
     public PackEncoder(Charset charset) {
-        // TODO Auto-generated constructor stub
+
         this.charset=charset;
     }
 

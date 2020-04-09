@@ -1,11 +1,5 @@
 package com;
 
-import com.mapper.PluginMapper;
-import com.model.PluginDo;
-import com.service.PluginService;
-import org.apache.ibatis.session.SqlSession;
-
-import javax.xml.crypto.Data;
 import java.io.IOException;
 
 /**
@@ -20,9 +14,6 @@ public class CodeTest {
     public static void main(String[] args) throws IOException {
 
 
-        Dao dao = new Dao();
-
-        dao.init();
 
 
     }

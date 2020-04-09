@@ -3,16 +3,13 @@ package com.manage;
 import com.businesshandler.DefaultBusinessHandler;
 import com.hander.InterceptHandler;
 import com.toolutils.ConstantUtils;
-import com.transmission.business.BusinessHandler;
 import com.transmission.server.core.AbstractBootServer;
 import com.transmission.server.core.BootServerParameter;
 import com.transmission.server.TcpServer;
 import com.transmission.server.core.ServerUtils;
-import lib.ToolUtils;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import java.io.File;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @ClassName ServerManageController
@@ -27,7 +24,7 @@ public class ServerManage {
 
     public synchronized void createService(BootServerParameter bootServerParameter) throws Exception {
 
-        if (!StringUtils.isEmpty(bootServerParameter.getHandlerClassName()) && !StringUtils.isEmpty(bootServerParameter.getHandlerJarFile())) {
+        /*if (!StringUtils.isEmpty(bootServerParameter.getHandlerClassName()) && !StringUtils.isEmpty(bootServerParameter.getHandlerJarFile())) {
             Class<?> clazz;
             try {
                 clazz = ToolUtils.getClass(new File(bootServerParameter.getHandlerJarFile()), bootServerParameter.getHandlerClassName());
@@ -41,25 +38,34 @@ public class ServerManage {
             InterceptHandler yxHandler = new InterceptHandler( new DefaultBusinessHandler());
             yxHandler.setServiceId(bootServerParameter.getServiceId());
             bootServerParameter.setHandler(yxHandler);
-        }
+        }*/
+
+
+        InterceptHandler yxHandler = new InterceptHandler( new DefaultBusinessHandler());
+        yxHandler.setServiceId(bootServerParameter.getServiceId());
+        bootServerParameter.setHandler(yxHandler);
+
         AbstractBootServer cloudIotServer = null;
         String serverType = bootServerParameter.getServerType();
         if (ConstantUtils.TCP.equals(serverType)) {
             cloudIotServer = new TcpServer(bootServerParameter);
         } else if (ConstantUtils.UDP.equals(serverType)) {
-
+            throw new Exception("Service type error or not supported");
         } else if (ConstantUtils.SERIAL.equals(serverType)) {
-
+            throw new Exception("Service type error or not supported");
         } else {
-            throw new Exception("服务类型出错");
+            throw new Exception("Service type error or not supported");
         }
         if (cloudIotServer != null) {
             if (null == ServerUtils.add(bootServerParameter.getServiceId(),cloudIotServer)) {
                  cloudIotServer.init();
 
                 // todo 服务信息入库
+
+
+
                 /*cloudIotServer.start();*/
-            } else  throw new Exception("服务初始化错误");
+            } else  throw new Exception("Service already exists");
         }
     }
 
@@ -75,9 +81,7 @@ public class ServerManage {
         return false;
     }
 
-    public AbstractBootServer getCloudIotServer(String serviceId) {
-        return (AbstractBootServer) ServerUtils.getServer(serviceId);
-    }
+
 
     public void stopServer(String serviceId) {
         AbstractBootServer cloudIotServer = getCloudIotServer(serviceId);
@@ -102,5 +106,13 @@ public class ServerManage {
 
     }
 
+
+    public AbstractBootServer getCloudIotServer(String serviceId) {
+        return (AbstractBootServer) ServerUtils.getServer(serviceId);
+    }
+
+    public ConcurrentHashMap<String,AbstractBootServer> getCloudIotServers() {
+        return (ConcurrentHashMap<String, AbstractBootServer>) ServerUtils.getServers();
+    }
 
 }

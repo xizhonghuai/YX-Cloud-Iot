@@ -72,6 +72,7 @@ public class Initialization {
 
             //todo 默认启动一个服务，后续删除
             BootServerParameter bootServerParameter = new BootServerParameter();
+            bootServerParameter.setServerName("YX-Clout-Iot");
             bootServerParameter.setIdle(300);
             bootServerParameter.setPort(Arrays.asList(defaultServerPort));
             bootServerParameter.setDebug(true);

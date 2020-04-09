@@ -4,6 +4,7 @@
 package com.transmission.server.debug;
 
 
+import com.transmission.server.core.AbstractBootServer;
 import com.transmission.server.core.CodecFactory;
 import com.transmission.server.core.ServerUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ import java.util.Map;
  *
  */
 @Slf4j
-public class DebugService {
+public class DebugService extends AbstractBootServer {
 
 	private IoAcceptor ioAcceptor = null;
 	private Integer port;
@@ -32,6 +33,8 @@ public class DebugService {
 		this.port = port;
 		init();
 	}
+
+
 
 
 
