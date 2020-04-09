@@ -23,18 +23,17 @@ public class RestResult<T> {
     public RestResult() {
     }
 
-    public RestResult(String msg) {
-        this.msg = msg;
-    }
 
     public RestResult(T data) {
         this.data = data;
     }
 
-    public RestResult(String msg, T data) {
+    public RestResult(String msg, String resultCode) {
+        this.result = false;
         this.msg = msg;
-        this.data = data;
+        this.resultCode = resultCode;
     }
+
 
     public RestResult(String msg, String resultCode, T data) {
         this.msg = msg;
