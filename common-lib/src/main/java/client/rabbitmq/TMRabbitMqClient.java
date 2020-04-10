@@ -1,12 +1,12 @@
 package client.rabbitmq;
 
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
-import com.rabbitmq.client.MessageProperties;
+import com.rabbitmq.client.*;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
+import java.util.function.Consumer;
 
 /**
  * @ClassName TMRabbitMqClient
@@ -21,7 +21,11 @@ public class TMRabbitMqClient {
     private static Connection conn;
     private static String queueName;
 
+    private static ExecutorService cachedThreadPool;
+
     public static void init(String host, String userName, String password, int port, String queue) throws IOException, TimeoutException {
+
+        cachedThreadPool = Executors.newFixedThreadPool(2);
 
         ConnectionFactory factory = new ConnectionFactory();
         factory.setUsername(userName);
@@ -40,6 +44,39 @@ public class TMRabbitMqClient {
         channel.basicPublish("", queueName,
                 MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());
     }
+
+
+    public static void queryRevive(String queryName, Consumer<QueryCallbackMsg> queryCallback) throws IOException {
+
+        com.rabbitmq.client.Consumer consumer = new DefaultConsumer(channel) {
+            @Override
+            public void handleDelivery(String consumerTag, Envelope envelope,
+                                       AMQP.BasicProperties properties, byte[] body)
+                    throws IOException {
+
+                cachedThreadPool.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        String message = null;
+                        try {
+                            message = new String(body, "UTF-8");
+                            QueryCallbackMsg callbackMsg = new QueryCallbackMsg(message, channel, envelope.getDeliveryTag());
+                            queryCallback.accept(callbackMsg);
+                        } catch (Exception e) {
+
+                        }
+                    }
+                });
+            }
+        };
+
+        channel.basicConsume(queryName, false, consumer);
+    }
+
+
+
+
+
 
     public static void free() throws IOException, TimeoutException {
 
