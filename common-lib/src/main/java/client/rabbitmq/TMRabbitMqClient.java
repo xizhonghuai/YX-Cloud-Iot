@@ -45,6 +45,13 @@ public class TMRabbitMqClient {
                 MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());
     }
 
+    public static void push(String otherQueueName,String msg) throws IOException {
+        channel.queueDeclare(otherQueueName, true, false, false, null);
+        //直接发数据到队列
+        channel.basicPublish("", otherQueueName,
+                MessageProperties.PERSISTENT_TEXT_PLAIN, msg.getBytes());
+    }
+
 
     public static void queryRevive(String queryName, Consumer<QueryCallbackMsg> queryCallback) throws IOException {
 
