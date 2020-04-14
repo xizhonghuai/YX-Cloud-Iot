@@ -25,4 +25,8 @@ public class ConstantUtils {
     public static final String UDP = "Udp";
     public static final String SERIAL = "Serial";
     public static final String MQTT = "Mqtt";
+
+
+    public static final String PUSH_DATA_TYPE = "0";
+    public static final String PUSH_EVENT_TYPE = "1";
 }

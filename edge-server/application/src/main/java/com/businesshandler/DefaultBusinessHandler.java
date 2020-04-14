@@ -54,7 +54,7 @@ public class DefaultBusinessHandler implements BusinessHandler {
 
     @Override
     public void sessionOpened(IotSession iotSession) {
-        iotSession.setAuthCode(UUID.randomUUID().toString());
+
     }
 
     @Override

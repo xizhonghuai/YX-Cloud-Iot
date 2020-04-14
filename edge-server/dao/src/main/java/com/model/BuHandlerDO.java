@@ -6,7 +6,7 @@ import lombok.ToString;
 import java.util.Date;
 
 /**
- * @ClassName RuleEngineDO
+ * @ClassName BuHandlerDO
  * @Description: TODO
  * @Author xizhonghuai
  * @Date 2020/3/11
@@ -14,9 +14,10 @@ import java.util.Date;
  **/
 @Data
 @ToString
-public class RuleEngineDO extends BaseModel{
+public class BuHandlerDO extends BaseModel{
 
-   private String ruleEngineName;
+   private String name;
+   private String fileName;
    private String url;
    private String executeClass;
 

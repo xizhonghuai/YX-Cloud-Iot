@@ -18,13 +18,10 @@ import java.util.List;
  * @Version V1.0
  **/
 @Component
-public class DeviceMsgService {
-
+public class DeviceMsgService extends BaseService<DeviceMsgMapper,DeviceMsgDO> {
 
     @Autowired
     private Dao dao;
-
-
 
     public void insert(DeviceMsgDO deviceMsgDO) {
         try (SqlSession sqlSession = dao.getSqlSessionFactory().openSession()) {
@@ -35,13 +32,12 @@ public class DeviceMsgService {
 
     }
 
-
-    public List<DeviceMsgDO> select(HashMap<String,Object> map) {
+  /*  public List<DeviceMsgDO> select(HashMap<String,Object> map) {
 
         try (SqlSession sqlSession = dao.getSqlSessionFactory().openSession()) {
              List<DeviceMsgDO> list = sqlSession.getMapper(DeviceMsgMapper.class).select(map);
              sqlSession.close();
              return list;
         }
-    }
+    }*/
 }

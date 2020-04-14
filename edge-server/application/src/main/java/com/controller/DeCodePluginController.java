@@ -67,6 +67,7 @@ public class DeCodePluginController {
             file.transferTo(dest);
             DeCodePluginDO deCodePluginDO = new DeCodePluginDO();
             deCodePluginDO.setName(name);
+            deCodePluginDO.setFileName(fileName);
             deCodePluginDO.setUrl(fileUrl);
             deCodePluginDO.setDescription(description);
             deCodePluginDO.setExecuteClass(executeClass);
@@ -86,14 +87,19 @@ public class DeCodePluginController {
 
     @ApiOperation(value = "获取插件信息", httpMethod = "GET")
     @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "path", name = "name", dataType = "String", value = "解码插件类名称"),
+            @ApiImplicitParam(paramType = "query", name = "id", dataType = "Integer", value = "解码id"),
+            @ApiImplicitParam(paramType = "query", name = "name", dataType = "String", value = "解码插件类名称"),
     })
     @RequestMapping(value = "/get", method = RequestMethod.GET)
-    public RestResult<List<DeCodePluginDO>> get(@RequestParam(value = "name",required = false) String name){
+    public RestResult<List<DeCodePluginDO>> get(@RequestParam(value = "name",required = false) String name,
+                                                @RequestParam(value = "id",required = false) Integer id){
 
         HashMap<String,Object> map = new HashMap<>();
         if (name != null){
             map.put("name",name);
+        }
+        if (id != null){
+            map.put("id",id);
         }
         return new RestResult<>(deCodePluginService.select(map));
     }

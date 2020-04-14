@@ -41,9 +41,10 @@ public class ServerManage {
         }*/
 
 
-        InterceptHandler yxHandler = new InterceptHandler( new DefaultBusinessHandler());
-        yxHandler.setServiceId(bootServerParameter.getServiceId());
-        bootServerParameter.setHandler(yxHandler);
+        InterceptHandler interceptHandler = new InterceptHandler( new DefaultBusinessHandler());
+        interceptHandler.setServiceId(bootServerParameter.getServiceId());
+        interceptHandler.setConnectType(bootServerParameter.getServerType());
+        bootServerParameter.setHandler(interceptHandler);
 
         AbstractBootServer cloudIotServer = null;
         String serverType = bootServerParameter.getServerType();

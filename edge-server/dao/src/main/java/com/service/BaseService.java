@@ -55,11 +55,14 @@ public class BaseService<Mapper, Model> {
     }
 
     public List<Model> select(HashMap<String, Object> map) {
-        UserDO userDO = (UserDO) Context.getInstance().getObj();
-        if (userDO == null) {
-            return new ArrayList<>();
+        //查询时可手动传入authCode
+        if (map.get("authCode") == null){
+            UserDO userDO = (UserDO) Context.getInstance().getObj();
+            if (userDO == null) {
+                return new ArrayList<>();
+            }
+            map.put("authCode", userDO.getAuthCode());
         }
-        map.put("authCode", userDO.getAuthCode());
         Dao dao = (Dao) DaoBeans.getBean("dao");
         SqlSession sqlSession = dao.getSqlSessionFactory().openSession();
         BaseMapper baseMapper = (BaseMapper) sqlSession.getMapper(mapperClass);
@@ -77,6 +80,21 @@ public class BaseService<Mapper, Model> {
         sqlSession.close();
         return list;
 
+    }
+
+
+    public void updateByPrimary(HashMap<String, Object> map){
+        UserDO userDO = (UserDO) Context.getInstance().getObj();
+        if (userDO == null) {
+            return;
+        }
+        map.put("authCode", userDO.getAuthCode());
+        Dao dao = (Dao) DaoBeans.getBean("dao");
+        SqlSession sqlSession = dao.getSqlSessionFactory().openSession();
+        BaseMapper baseMapper = (BaseMapper) sqlSession.getMapper(mapperClass);
+        baseMapper.updateByPrimary(map);
+        sqlSession.commit();
+        sqlSession.close();
     }
 
 

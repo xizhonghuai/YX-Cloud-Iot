@@ -16,7 +16,7 @@ public class HttpPush implements MessagePush {
     }
 
     @Override
-    public void push(Object message) {
+    public void push(String msgType,Object message) {
 
     }
 

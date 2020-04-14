@@ -15,6 +15,7 @@ import java.util.Date;
 @Data
 public class DeCodePluginDO extends BaseModel {
     private String name;
+    private String fileName;
     private String url;
     private String executeClass;
 }

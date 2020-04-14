@@ -3,10 +3,12 @@ package com.hander;
 import com.alibaba.fastjson.JSON;
 import com.cache.DeviceShadow;
 import com.init.SpringUtil;
+import com.model.DeviceDO;
 import com.model.DeviceMsgDO;
 import com.msgpush.MessagePush;
 import com.msgpush.http.HttpPush;
 import com.service.DeviceMsgService;
+import com.service.DeviceService;
 import com.toolutils.ConstantUtils;
 import com.transmission.business.BusinessHandler;
 import com.transmission.business.Handler;
@@ -18,6 +20,8 @@ import org.apache.mina.core.session.IoSession;
 import org.springframework.util.StringUtils;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * @ClassName InterceptHandler
@@ -37,9 +41,15 @@ public class InterceptHandler extends Handler {
 
     private String serviceId;
 
+    private String connectType;
+
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public void setConnectType(String type) {
+        this.connectType = type;
     }
 
     @Override
@@ -47,6 +57,7 @@ public class InterceptHandler extends Handler {
         log.info(session.getRemoteAddress() + "连接");
         iotSession = new IotSession(session);
         iotSession.setServiceId(serviceId);
+        iotSession.setConnectType(connectType);
         businessHandler.sessionOpened(iotSession);
     }
 
@@ -71,11 +82,21 @@ public class InterceptHandler extends Handler {
 
         if (!(Boolean) session.getAttribute(ConstantUtils.REG_STATUS, false)) {
             try {
-                RegMsg regMsg = (RegMsg) JSON.parseObject(message.toString(), RegMsg.class);
-                if (!StringUtils.isEmpty(regMsg.getRegId())) {
+                RegMsg regMsg = JSON.parseObject(message.toString(), RegMsg.class);
+                if (!StringUtils.isEmpty(regMsg.getRegId()) && !StringUtils.isEmpty(regMsg.getAuthCode())) {
 
                     //todo device 授权校验逻辑
+                    DeviceService deviceService = (DeviceService) SpringUtil.getBean("deviceService");
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("deviceId",regMsg.getRegId());
+                    map.put("authCode",regMsg.getAuthCode());
+                    List<DeviceDO> eqs = deviceService.select(map);
+                    if (eqs.isEmpty()){
+                        session.write("Missing permission");
+                        return;
+                    }
                     iotSession.setDeviceId(regMsg.getRegId());
+                    iotSession.setAuthCode(regMsg.getAuthCode()==null?"@":regMsg.getAuthCode());//
                     session.write("reg ok");
                     session.setAttribute(ConstantUtils.REG_STATUS, true);
                 } else {
@@ -93,9 +114,10 @@ public class InterceptHandler extends Handler {
 
         businessHandler.messageReceived(iotSession, message);
 
+
         //todo 业务数据多协议转发
         MessagePush messagePush = new HttpPush();
-        messagePush.push(iotSession.getForwardMessage());
+        messagePush.push(ConstantUtils.PUSH_DATA_TYPE, iotSession.getForwardMessage());
 
 
         //设备数据 记录
@@ -118,6 +140,6 @@ public class InterceptHandler extends Handler {
 
         }
 
-
+        iotSession.updateActivityTime();//更新活动时间
     }
 }

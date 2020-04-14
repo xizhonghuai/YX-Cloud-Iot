@@ -3,7 +3,6 @@ package com.config;
 import com.common.Context;
 import com.model.UserDO;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

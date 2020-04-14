@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.model.DeCodePluginDO">
         <id column="id" jdbcType="INTEGER" property="id"/>
         <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="file_name" jdbcType="VARCHAR" property="fileName"/>
         <result column="url" jdbcType="VARCHAR" property="url"/>
         <result column="execute_class" jdbcType="VARCHAR" property="executeClass"/>
         <result column="description" jdbcType="VARCHAR" property="description"/>
@@ -11,7 +12,7 @@
         <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, `name`,url,execute_class,description,auth_code,create_date
+    id, `name`,file_name,url,execute_class,description,auth_code,create_date
   </sql>
     <select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
         select
@@ -19,7 +20,7 @@
         from decode_plugin
         where 1=1
         <if test="id != null">
-            and id = #{id,jdbcType=VARCHAR}
+            and id = #{id,jdbcType=INTEGER}
         </if>
 
         <if test="name != null">
@@ -32,9 +33,10 @@
 
 
     <insert id="insert" parameterType="com.model.DeCodePluginDO">
-        insert into decode_plugin (`name`, url,execute_class,description,auth_code,create_date )
+        insert into decode_plugin (`name`, file_name,url,execute_class,description,auth_code,create_date )
         values (
         #{name,jdbcType=VARCHAR},
+        #{fileName,jdbcType=VARCHAR},
         #{url,jdbcType=VARCHAR},
         #{executeClass,jdbcType=VARCHAR},
         #{description,jdbcType=VARCHAR},

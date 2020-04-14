@@ -22,7 +22,7 @@ public class IotNodeDO {
     private String serverName;
     private Boolean isStatus;
     private Integer idle;
-    private Integer ruleEngineId;
+    private Integer buHandlerId;
 
     private String ports;
     private String comName;

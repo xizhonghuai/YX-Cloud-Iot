@@ -1,10 +1,9 @@
 package com.transmission.server.core;
 
-import com.alibaba.fastjson.JSON;
 import com.toolutils.ConstantUtils;
-import com.toolutils.WriteMsgUtils;
 import org.apache.mina.core.session.IoSession;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,14 +21,14 @@ public class IotSession {
     private List<Object> forwardMessageContainer;
     private Object forwardMessage;
     private Object toDBMessage;
+    private ConnectProperty connectProperty;
 
     public IotSession(IoSession session) {
         this.session = session;
-        if (session.getAttribute("forwardMessageContainer") == null) {
-            session.setAttribute("forwardMessageContainer", new LinkedList<>());
-        } else {
-            forwardMessageContainer = (List<Object>) session.getAttribute("forwardMessageContainer");
-        }
+        session.setAttribute("forwardMessageContainer", new LinkedList<>());
+        session.setAttribute("connectProperty",new ConnectProperty());
+        connectProperty = (ConnectProperty) session.getAttribute("connectProperty");
+        connectProperty.setAddress(session.getRemoteAddress().toString());
     }
 
 
@@ -63,6 +62,7 @@ public class IotSession {
 
     public void setAuthCode(String authCode) {
         setAttribute(ConstantUtils.AUTH_CODE, authCode);
+        connectProperty.setAuthCode(authCode);
     }
 
     public String getAuthCode() {
@@ -71,40 +71,42 @@ public class IotSession {
 
     public void setDeviceId(String deviceId) {
         setAttribute(ConstantUtils.REG_ID, deviceId);
+        connectProperty.setRegId(deviceId);
+        connectProperty.setRegisterTime(new Date());
     }
 
     public String getDeviceId() {
-
-        return (String) getAttribute(ConstantUtils.REG_ID,null);
+        return (String) getAttribute(ConstantUtils.REG_ID, null);
     }
 
     public String getServiceId() {
-        return (String) session.getAttribute(ConstantUtils.SERVICE_ID);
+        return connectProperty.getServiceId();
     }
 
     public void setServiceId(String serviceId) {
-        session.setAttribute(ConstantUtils.SERVICE_ID,serviceId);
+        connectProperty.setServiceId(serviceId);
     }
-
 
 
     public String getRemoteAddress() {
-
-        return session.getRemoteAddress().toString();
+        return connectProperty.getAddress();
     }
 
-    public String getDevice() {
-        return getDeviceId() + "/" + getRemoteAddress();
-
+    public String getDevice(){
+        return getDeviceId()+getRemoteAddress();
     }
 
-  /*  public Boolean insertDataBase(Object data) {
-        String jsonStr = JSON.toJSONString(data);
+    public void setConnectType(String type) {
+        connectProperty.setType(type);
+    }
 
-        // TODO 数据入库逻辑，后续完善
-        return true;
-    }*/
+    public String getConnectType() {
+        return connectProperty.getType();
+    }
 
+    public void updateActivityTime() {
+        connectProperty.setActivityTime(new Date());
+    }
 
     public Object getForwardMessage() {
         return forwardMessage;

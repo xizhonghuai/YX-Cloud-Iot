@@ -9,6 +9,6 @@ package com.msgpush;
  **/
 public interface MessagePush {
     void init();
-    void push(Object message);
+    void push(String msgType,Object message);
     void close();
 }

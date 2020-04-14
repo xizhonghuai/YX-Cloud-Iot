@@ -24,8 +24,8 @@ import java.util.List;
  **/
 @Slf4j
 @RestController
-@RequestMapping("/api/device/message/")
-public class DeviceMessageController {
+@RequestMapping("/api/device/data/")
+public class DeviceDataController {
 
     @Autowired
     private DeviceMsgService deviceMsgService;

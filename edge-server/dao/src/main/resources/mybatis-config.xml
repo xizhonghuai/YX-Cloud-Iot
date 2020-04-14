@@ -22,5 +22,6 @@
     <mappers>
         <mapper resource="mapper/deviceMsgMapper.xml"/>
         <mapper resource="mapper/deCodePluginMapper.xml"/>
+        <mapper resource="mapper/deviceMapper.xml"/>
     </mappers>
 </configuration>
