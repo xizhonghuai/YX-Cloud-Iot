@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:28 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - 表单向导</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术" name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/plugins/steps/jquery.steps.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>部署向导</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_wizard.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="form_wizard.html#">选项1</a>
+                            </li>
+                            <li><a href="form_wizard.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <p>
+                        根据以下提示完成云部署
+                    </p>
+
+                    <form accept-charset="GB2312" action="../postmsg" class="wizard-big" id="form" method="post">
+                        <h1>基本信息</h1>
+                        <fieldset>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <div class="form-group ">
+                                        <label>所在城市</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="cityId" name="cityId" placeholder="选择城市"
+                                                   type="text">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                                        type="button">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group ">
+                                        <label>所在区域</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="areaId" name="areaId" placeholder="选择区域"
+                                                   type="text">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                                        type="button">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label>设备ID *</label>
+                                        <input class="form-control required" id="deviceId" name="deviceId" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>设备名称 *</label>
+                                        <input class="form-control required" id="deviceName" name="deviceName"
+                                               type="text">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="text-center">
+                                        <div style="margin-top: 20px">
+                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+
+                        <h1>详细信息</h1>
+                        <fieldset>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+
+                                    <div class="form-group">
+                                        <label>通信卡号</label>
+                                        <input class="form-control" id="dtuId" name="dtuId" type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>管理单位</label>
+                                        <input class="form-control" id="company" name="company" type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>联系电话</label>
+                                        <input class="form-control" id="mangerTel" name="mangerTel" type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>设备详细地址</label>
+                                        <input class="form-control" id="address" name="address" type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>经度信息</label>
+                                        <input class="form-control" id="longitude" name="longitude" type="text">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>纬度信息</label>
+                                        <input class="form-control" id="latitude" name="latitude" type="text">
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="text-center">
+                                        <div style="margin-top: 20px">
+                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+                        <h1>账户授权</h1>
+                        <fieldset>
+
+                            <div class="row">
+
+                                <div class="row">
+
+
+                                    <div class="col-lg-6">
+
+                                        <input class="form-control" id="findPar" placeholder="输入关键字查找"
+                                               type="text" width="600px">
+                                    </div>
+
+
+                                    <div class="col-lg-3">
+                                        <button class="btn btn-primary " onclick="findUser()"
+                                                type="button">
+                                            <i class="fa fa-search"></i> <span class="bold">查找</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row"><h2></h2></div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="panel panel-info">
+                                            <div class="panel-heading">
+                                                <i class="fa fa-info-circle"></i> 账户信息
+                                            </div>
+                                            <div class="panel-body">
+                                                <div id="DeviceAuthen"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="jqGrid_wrapper">
+                                    <table id="productList"></table>
+                                    <div id="productPager"></div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/staps/jquery.steps.min.js"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/messages_zh.min.js"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+
+    var cityList = new Array();
+    var areaList = new Array();
+
+    var cityId_temp;
+    var areaId_temp;
+
+
+    function getCity() {
+        var data = GetData("../getCity", null);
+        if (data.statusCode == 200) {
+            cityList = data.result;
+        }
+    }
+
+
+    function getArea(area) {
+        var data = GetData("../getArea", area);
+        if (data.statusCode == 200) {
+            areaList = data.result;
+        }
+    }
+
+
+    function authenHtml(name, id) {
+        var dom_id = "dom" + id;
+        var html = "  <div class=\"checkbox checkbox-success checkbox-inline\">  \
+			<input name=\"sqcheckbox\"       type=\"checkbox\" id=\""
+            + dom_id
+            + "\" value=\""
+            + id
+            + "\"  > \
+			<label for=\"" + dom_id + "\"> "
+            + name
+            + " </label> \
+		</div> ";
+        return html;
+    }
+
+
+    function getUser(obj) {
+        var html = "";
+        var data = GetData("../getUser", obj);
+        if (data.statusCode == 200) {
+            var userList = data.result;
+            for (var j = 0; j < userList.length; j++) {
+                html = html + authenHtml(userList[j].userName, userList[j].id);
+            }
+            document.getElementById("DeviceAuthen").innerHTML = html;
+        }
+    }
+
+
+    function addDevice() {
+
+
+        var userIds = new Array();
+        var sqDom = document.getElementsByName('sqcheckbox');
+        var s = '';
+        var untisId = '';
+        for (var i = 0; i < sqDom.length; i++) {
+            if (sqDom[i].checked) {
+                userIds.push(sqDom[i].value);
+            }
+        }
+
+
+        var deviceData = {
+            "deviceId": $("#deviceId").val().trim(),
+            "deviceName": $("#deviceName").val().trim(),
+            "areaId": areaId_temp,
+            "dtuId": $("#dtuId").val().trim(),
+            "company": $("#company").val().trim(),
+            "mangerTel": $("#mangerTel").val().trim(),
+            "address": $("#address").val().trim(),
+            "longitude": $("#longitude").val().trim(),
+            "latitude": $("#latitude").val().trim(),
+            "params1": JSON.stringify(userIds)
+
+        }
+
+
+        var data = GetData("../addDevice", deviceData);
+
+        if (data.statusCode == 200) {
+            window.location.href = "sucessful.html";
+        } else {
+            window.location.href = "error.html";
+        }
+    }
+
+
+    function findUser() {
+
+        var par = $("#findPar").val().trim();
+        var data = GetData("../getUser?userName=" + par, null);
+
+        if (data.statusCode == 200) {
+            var userList = data.result;
+            var html = "";
+
+            if (userList.length>0){
+                for (var j = 0; j < userList.length; j++) {
+                    html = html + authenHtml(userList[j].userName, userList[j].id);
+                }
+            } else
+            {
+                toastr.options = {
+                    /*   "closeButton": true, */
+                    "debug": false,
+                    "progressBar": false,
+                    "positionClass": "toast-top-center",
+                    "onclick": null,
+                    "showDuration": "200",
+                    "hideDuration": "1000",
+                    "timeOut": "7000",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                };
+                toastr.warning("未查找到结果");
+            }
+
+
+            document.getElementById("DeviceAuthen").innerHTML = html;
+
+        }
+    }
+
+
+    $(document).ready(function () {
+        $("#form").steps({
+            bodyTag: "fieldset", onStepChanging: function (event, currentIndex, newIndex) {
+                if (newIndex == 2){
+
+                    toastr.options = {
+                        "closeButton": true,
+                        "debug": false,
+                        "progressBar": true,
+                        "positionClass": "toast-top-right",
+                        "onclick": null,
+                        "showDuration": "400",
+                        "hideDuration": "1000",
+                        "timeOut": "7000",
+                        "extendedTimeOut": "1000",
+                        "showEasing": "swing",
+                        "hideEasing": "linear",
+                        "showMethod": "fadeIn",
+                        "hideMethod": "fadeOut"
+                    };
+                    toastr.info("将设备授权给指定选中账户，可授权多个账户", "特别提示");
+                }
+
+
+
+
+                if (currentIndex > newIndex) {
+
+                    return true
+                }
+                if (newIndex === 3 && Number($("#age").val()) < 18) {
+                    return false
+                }
+                var form = $(this);
+                if (currentIndex < newIndex) {
+                    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error")
+                }
+                form.validate().settings.ignore = ":disabled,:hidden";
+                return form.valid()
+            }, onStepChanged: function (event, currentIndex, priorIndex) {
+                if (currentIndex === 2 && Number($("#age").val()) >= 18) {
+                    $(this).steps("next")
+                }
+                if (currentIndex === 2 && priorIndex === 3) {
+                    $(this).steps("previous")
+                }
+            }, onFinishing: function (event, currentIndex) {
+                var form = $(this);
+                form.validate().settings.ignore = ":disabled";
+
+                return form.valid()
+            }, onFinished: function (event, currentIndex) {
+
+
+                addDevice();
+            }
+        }).validate({
+            errorPlacement: function (error, element) {
+                element.before(error)
+            }, rules: {confirm: {equalTo: "#password"}}
+        })
+
+        getCity();
+
+        $("#cityId").bsSuggest({
+
+            idField: "id",    //id字段
+            keyField: "cityName",   //key字段
+            effectiveFields: ["cityName"],//显示的有效字段
+            data: {
+                'value': cityList
+            },
+
+        }).on('onSetSelectValue', function (e, keyword) {
+
+            cityId_temp = keyword.id;
+            var area = {
+                "cityId": keyword.id
+            }
+
+
+            getArea(area);
+
+            $("#areaId").bsSuggest("destroy");
+
+            $("#areaId").val("");
+
+            $("#areaId").bsSuggest({
+
+                idField: "id",    //id字段
+                keyField: "areaName",   //key字段
+                effectiveFields: ["areaName"],//显示的有效字段
+                data: {
+                    'value': areaList
+                },
+
+            }).on('onSetSelectValue', function (e, keyword) {
+                console.log('onSetSelectValue: ', keyword);
+                areaId_temp = keyword.id;
+            });
+        });
+    });
+
+
+    $(function () {
+
+        getUser(null);
+
+    });
+
+
+</script>
+<script charset="UTF-8" src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:29 GMT -->
+</html>

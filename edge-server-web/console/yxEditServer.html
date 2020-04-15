@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link
+            href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+            rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+</head>
+
+
+<body class="panel-primary">
+<div class="wrapper wrapper-content animated fadeInRight ">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="">
+
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label>服务名称 *</label>
+                                <input class="form-control required" id="serverName" name="serverName"
+                                       type="text">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>通信卡号</label>
+                                <input class="form-control" id="dtuId" name="dtuId" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>管理单位</label>
+                                <input class="form-control" id="company" name="company" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input class="form-control" id="mangerTel" name="mangerTel" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>设备详细地址</label>
+                                <input class="form-control" id="address" name="address" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>经度信息</label>
+                                <input class="form-control" id="longitude" name="longitude" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>纬度信息</label>
+                                <input class="form-control" id="latitude" name="latitude" type="text">
+                            </div>
+
+                            <div class="hr-line-dashed"></div>
+                            <div align="center">
+
+                                <button class="btn btn-primary"  onclick="postData()" type="button">保存内容</button>
+
+                            </div>
+
+
+                            <div class="hr-line-dashed"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/messages_zh.min.js"></script>
+<script src="js/demo/form-validate-demo.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+
+<script type="text/javascript">
+    var deviceId = getUrlParam("deviceId");
+
+    function postData() {
+
+        var deviceData = {
+            "deviceId": deviceId,
+            "deviceName": $("#deviceName").val().trim(),
+            "dtuId": $("#dtuId").val().trim(),
+            "company": $("#company").val().trim(),
+            "mangerTel": $("#mangerTel").val().trim(),
+            "address": $("#address").val().trim(),
+            "longitude": $("#longitude").val().trim(),
+            "latitude": $("#latitude").val().trim()
+        }
+
+
+
+        var data = GetData("../updateDeviceBasicsInfo", deviceData);
+
+        if (data.statusCode == 200) {
+            window.location.href = "sucessful.html";
+        } else {
+            window.location.href = "error.html";
+        }
+
+    }
+
+    $(function () {
+
+
+        var dataArr = GetData("../getDeviceBasicsInfo?deviceId=" + deviceId, null);
+        if (dataArr != null) {
+            var data = dataArr[0]
+            $("#deviceName").val(data.deviceName);
+            $("#dtuId").val(data.dtuId);
+            $("#company").val(data.company);
+            $("#mangerTel").val(data.mangerTel);
+            $("#address").val(data.address);
+            $("#longitude").val(data.longitude);
+            $("#latitude").val(data.latitude);
+        }
+
+
+    });
+</script>
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:16 GMT -->
+</html>

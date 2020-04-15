@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - 客户管理</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css" rel="stylesheet">
+    <link
+            href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+            rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    <h2>设备权限管理</h2>
+                    <br>
+
+                    <div class="row">
+
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <input class="form-control" id="cityId" placeholder="选择城市"
+                                       type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                            type="button">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <input class="form-control" id="areaId" placeholder="选择区县"
+                                       type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                            type="button">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <button class="btn btn-primary " id="find" onclick="findData()"
+                                        type="button">
+                                    <i class="fa fa-search"></i> <span class="bold">查找设备</span>
+                                </button>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <input class="form-control" id="userId" placeholder="选择需授权用户"
+                                       type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                            type="button">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+
+                                <button class="btn btn-primary" onclick="devAutho()"
+                                        type="button">授权
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-horizontal m-t" id="editAgent">
+                        <h6 class="page-header">已授权设备</h6>
+                        <div class="row">
+                            <div class="col-sm-12" id="sq_device"></div>
+                        </div>
+
+                        <h6 class="page-header">待授权设备</h6>
+                        <div class="row">
+                            <div class="col-sm-12" id="notsq_device"></div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/messages_zh.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script src="js/common.js"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script>
+
+
+    function getSqDevcieHtml(deviceId) {
+
+        var dom_id = "inlineCheckbox_" + deviceId;
+        var html = "  <div class=\"checkbox checkbox-success checkbox-inline\">  \
+		<input name=\"sqcheckbox\"    checked=\"checked\"    type=\"checkbox\" id=\""
+            + dom_id
+            + "\" value=\""
+            + deviceId
+            + "\"  > \
+		<label for=\"" + dom_id + "\"> "
+            + deviceId
+            + " </label> \
+	</div> ";
+        return html;
+    }
+
+
+    function getNotSqDevcieHtml(deviceId) {
+
+        var dom_id = "inlineCheckbox_" + deviceId;
+        var html = "  <div class=\"checkbox checkbox-success checkbox-inline\">  \
+		<input name=\"sqcheckbox\"    type=\"checkbox\" id=\""
+            + dom_id
+            + "\" value=\""
+            + deviceId
+            + "\"  > \
+		<label for=\"" + dom_id + "\"> "
+            + deviceId
+            + " </label> \
+	</div> ";
+        return html;
+    }
+
+    //开始
+
+    var cityList = new Array();
+    var areaList = new Array();
+    var userList = new Array();
+
+
+    var cityId_temp = null;
+    var areaId_temp = null;
+    var userId_temp = null;
+
+
+    function getCity() {
+        var data = GetData("../getCity", null);
+        if (data.statusCode == 200) {
+            cityList = data.result;
+            cityList.unshift({"id": -1, "cityName": "全部"});
+        }
+    }
+
+
+    function getArea(area) {
+        var data = GetData("../getArea", area);
+        if (data.statusCode == 200) {
+            areaList = data.result;
+            areaList.unshift({"id": -1, "areaName": "全部"});
+        }
+    }
+
+
+    function getUser() {
+        var data = GetData("../getUser", null);
+        if (data.statusCode == 200) {
+            userList = data.result;
+
+        }
+    }
+
+
+    getCity();
+    $("#cityId").bsSuggest({
+
+        idField: "id",    //id字段
+        keyField: "cityName",   //key字段
+        effectiveFields: ["cityName"],//显示的有效字段
+        data: {
+            'value': cityList
+        },
+
+    }).on('onSetSelectValue', function (e, keyword) {
+
+        cityId_temp = keyword.id;
+        var area = {
+            "cityId": keyword.id
+        }
+        getArea(area);
+
+        $("#areaId").bsSuggest("destroy");
+        $("#areaId").val("");
+        areaId_temp = null;
+        $("#areaId").bsSuggest({
+
+            idField: "id",    //id字段
+            keyField: "areaName",   //key字段
+            effectiveFields: ["areaName"],//显示的有效字段
+            data: {
+                'value': areaList
+            },
+
+        }).on('onSetSelectValue', function (e, keyword) {
+
+            areaId_temp = keyword.id;
+
+
+        });
+    });
+
+
+    var deviceList = new Array();
+    var sqDeviceList = new Array();
+
+
+    getUser();
+    $("#userId").bsSuggest({
+
+        idField: "id",    //id字段
+        keyField: "userName",   //key字段
+        effectiveFields: ["userName", "realName"],//显示的有效字段
+        effectiveFieldsAlias: {"userName": "用户名", "realName": "真实姓名"},
+        data: {
+            'value': userList
+        },
+
+    }).on('onSetSelectValue', function (e, keyword) {
+
+        userId_temp = keyword.id;
+
+        if (userId_temp == null) {
+            return false;
+        }
+
+        var par = {
+            "userId": userId_temp
+        }
+
+        var data = GetData("../getDeviceBasicsInfo", par);
+        if (data != null) {
+            sqDeviceList = data;
+        }
+        // userId_temp == null;
+
+        findData();
+    });
+
+
+    function setCheckBoxHtml() {
+        var sqHtml = "";
+        var notHtml = "";
+
+        document.getElementById("sq_device").innerHTML = "";
+        document.getElementById("notsq_device").innerHTML = "";
+
+
+        for (var i = 0; i < deviceList.length; i++) {
+
+            for (var j = 0; j < sqDeviceList.length; j++) {
+                if (deviceList[i].deviceId == sqDeviceList[j].deviceId){
+                    deviceList[i].deviceId = "#"+ deviceList[i].deviceId;
+                    break;
+                }
+            }
+        }
+
+
+
+        for (var i = 0; i < deviceList.length; i++) {
+
+            if(deviceList[i].deviceId.indexOf("#")!=-1){
+                var str = deviceList[i].deviceId;
+                    str = str.substr(1,str.length);
+                sqHtml = sqHtml + getSqDevcieHtml(str);
+
+            } else{
+                notHtml = notHtml + getNotSqDevcieHtml(deviceList[i].deviceId);
+            }
+
+        }
+
+
+        document.getElementById("notsq_device").innerHTML = notHtml;
+
+
+        document.getElementById("sq_device").innerHTML = sqHtml;
+    }
+
+
+    function findData() {
+        if ((areaId_temp == null || cityId_temp == null)) {
+            warningMsg("请选择城市、区县");
+            return;
+        }
+        var par = new Object();
+
+
+        if (cityId_temp != -1) {
+
+            par.cityId = cityId_temp;
+        }
+
+        if (areaId_temp != -1) {
+
+            par.areaId = areaId_temp;
+        }
+
+        var data = GetData("../getDeviceBasicsInfo", par);
+        if (data != null) {
+            deviceList = data;
+        } else {
+            warningMsg("未找到相关数据");
+        }
+
+        setCheckBoxHtml();
+
+    }
+
+
+    function devAutho() {
+
+        if (userId_temp == null){
+
+            warningMsg("请选择需授权账户");
+            return false;
+        }
+
+        var sqDevices = new Array();
+        var notSqDecices = new Array();
+
+        var obj = document.getElementsByName('sqcheckbox');
+        var s = '';
+        for (var i = 0; i < obj.length; i++) {
+            if ( obj[i].checked == true) {
+                sqDevices.push(obj[i].value);
+            }
+
+            if (  obj[i].checked == false) {
+                notSqDecices.push(obj[i].value);
+            }
+
+        }
+
+        var par ={
+            "userId":userId_temp,
+            "params1": JSON.stringify(sqDevices),
+            "params2": JSON.stringify(notSqDecices),
+
+        }
+
+
+        var data = GetData("../deviceAutho", par);
+        if (data.statusCode == 200) {
+
+            successMsg("授权成功");
+        } else {
+            warningMsg("授权失败");
+        }
+
+    }
+
+
+</script>
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/clients.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:44 GMT -->
+</html>

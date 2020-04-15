@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - 表单验证 jQuery Validation</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link
+            href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+            rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+</head>
+
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="col-sm-12">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">用户注册</div>
+                <div class="panel-body">
+
+                    <div class="row">
+                        <div class="col-sm-8">
+
+                            <div class="form-group">
+                                <label>用户名</label>
+                                <input class="form-control" id="userName" name="userName" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>设置登录密码</label>
+                                <input class="form-control" id="userPassword" name="userPassword" type="password">
+                            </div>
+
+                            <div class="form-group">
+                                <label>确认登录密码</label>
+                                <input class="form-control" id="userPassword_" name="userPassword_" type="password">
+                            </div>
+
+                            <div class="form-group">
+                                <label>选择账户类型</label>
+
+
+                                <select class="form-control" id="authorizationId">
+                                    <option value="0">普通用户</option>
+                                    <option value="1">管理员</option>
+                                    <option value="2">超级管理员</option>
+
+                                </select>
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>真实姓名</label>
+                                <input class="form-control" id="realName" name="realName" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>公司名称</label>
+                                <input class="form-control" id="CompanyName" name="CompanyName" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>联系电话</label>
+                                <input class="form-control" id="telephone" name="telephone" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>选择平台类型</label>
+
+
+                                <select class="form-control" id="systemId">
+                                    <option value="0">缺省</option>
+                                    <option value="1">水文</option>
+                                    <option value="2">电力</option>
+                                    <option value="3">市政</option>
+
+                                </select>
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>平台显示名称</label>
+                                <input class="form-control" id="systemTitle" name="systemTitle" type="text">
+                            </div>
+                            <br>
+
+                            <a onclick="regUser()" class="btn btn-primary btn-rounded btn-block"><i class="fa fa-info-circle"></i> 注册</a>
+
+                        </div>
+                        <div class="col-sm-4">
+
+
+                            <div class="text-center">
+
+                                <i class="fa fa-user-plus" style="font-size: 180px;color: #2ca6e5 "></i>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/messages_zh.min.js"></script>
+<script src="js/demo/form-validate-demo.min.js"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/common.js"></script>
+
+
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+<script type="text/javascript">
+
+
+    function regUser() {
+
+        var request = new Object();
+
+        var userName = $("#userName").val().trim();
+        var userPassword = $("#userPassword").val().trim();
+        var userPassword_ = $("#userPassword_").val().trim();
+        var CompanyName = $("#CompanyName").val().trim();
+        var realName = $("#realName").val().trim();
+        var telephone = $("#telephone").val().trim();
+        var authorizationId = $("#authorizationId").val().trim();
+        var systemId = $("#systemId").val().trim();
+        var systemTitle = $("#systemTitle").val().trim();
+
+        if (userName.length <= 0 || systemId.length <= 0 || userPassword.length <= 0 || systemTitle.length <= 0) {
+
+            warningMsg("关键参数不能为空");
+
+            return false;
+        }
+
+        if (userPassword != userPassword_) {
+            warningMsg("两次密码输入不一致");
+            return false;
+        }
+
+        request.userName = userName
+        request.userPassword = userPassword;
+        request.CompanyName = CompanyName;
+        request.realName = realName;
+        request.telephone = telephone;
+        request.authorizationId = authorizationId;
+        request.systemId = systemId;
+        request.systemTitle = systemTitle;
+
+        var data = GetData("../addUser", request);
+        if (data.statusCode == 200) {
+
+            successMsg("注册成功")
+
+        } else {
+
+
+            errorMsg("添加失败！,用户名已存在或其他参数错误");
+        }
+
+
+    }
+
+
+</script>
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:16 GMT -->
+</html>

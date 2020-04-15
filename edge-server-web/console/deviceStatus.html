@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - jqGird</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <!-- jqgrid-->
+    <link href="css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+    <style>
+        /* Additional style to fix warning dialog position */
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>监测设备状态信息</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="widget style1 lazur-bg">
+                                <div class="row vertical-align">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-rss fa-3x"></i>
+                                    </div>
+
+                                    <div class="col-xs-9 text-right">
+                                        <h3 class="font-bold" id="dev_count">总数：-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-sm-3">
+                            <div class="widget style1 navy-bg">
+                                <div class="row vertical-align">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-rss fa-3x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <h3 class="font-bold" id="dev_online">在线数：-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-sm-3">
+                            <div class="widget style1 yellow-bg">
+                                <div class="row vertical-align">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-rss fa-3x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <h3 class="font-bold" id="dev_notOnline">离线数：-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <div class="widget style1 lazur-bg">
+                                <div class="row vertical-align">
+                                    <div class="col-xs-3">
+                                        <i class="fa fa-rss fa-3x"></i>
+                                    </div>
+                                    <div class="col-xs-9 text-right">
+                                        <h3 class="font-bold" id="dev_zxl">在线率：-</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <input class="form-control" id="cityId" placeholder="城市"
+                                       type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                            type="button">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <input class="form-control" id="areaId" placeholder="区县"
+                                       type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                            type="button">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-2">
+
+                            <input AUTOCOMPLETE="off" class="form-control" id="deviceId"
+                                   placeholder="设备ID" type="text">
+
+                        </div>
+
+                        <!--                        <div class="col-lg-2">-->
+
+                        <!--                            <input AUTOCOMPLETE="off" class="form-control" id="deviceName"-->
+                        <!--                                   placeholder="设备名称" type="text">-->
+
+                        <!--                        </div>-->
+
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <input class="form-control" id="online" placeholder="选择通信状态"
+                                       type="text">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                            type="button">
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <button class="btn btn-primary " onclick="findData()"
+                                        type="button">
+                                    <i class="fa fa-search"></i> <span class="bold">搜索</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+
+                    <div class="jqGrid_wrapper">
+                        <table id="deviceStatusList"></table>
+                        <div id="devicePager"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script>
+
+
+
+    var token = GetData("../getToken",null);
+
+    var tokenData = JSON.parse(token.result);
+
+
+
+
+
+    var cityList = new Array();
+    var areaList = new Array();
+
+    var cityId_temp = null;
+    var areaId_temp = null;
+    var params1_temp = null;
+
+
+    // var par = new Object()
+    // par.areaId = null;
+    // // par.deviceId = null;
+    // // par.deviceName = null;
+    // // par.params1 = null;
+
+
+    function getCity() {
+        var data = GetData("../getCity", null);
+        if (data.statusCode == 200) {
+            cityList = data.result;
+            cityList.unshift({"id":-1,"cityName":"全部"});
+        }
+    }
+
+    function getArea(area) {
+        var data = GetData("../getArea", area);
+        if (data.statusCode == 200) {
+            areaList = data.result;
+            areaList.unshift({"id":-1,"areaName":"全部"});
+        }
+    }
+
+    function findData() {
+
+        var deviceId = $("#deviceId").val().trim();
+        // var deviceName = $("#deviceName").val().trim();
+        var deviceName = null;
+
+
+        var dev = new Object();
+
+        var par = "";
+
+        if (deviceId.length > 0) par = par + "deviceId=" + deviceId + "&";
+        // if (deviceName.length > 0) par = par+"deviceName="+(deviceName)+"&";
+        if ((areaId_temp != null) && (areaId_temp != -1)) par = par + "areaId=" + areaId_temp + "&";
+        if ((cityId_temp != null) && (cityId_temp != -1)) par = par + "cityId=" + cityId_temp + "&";
+
+        if (params1_temp != null) par = par + "params1=" + params1_temp + "&";
+
+
+
+
+        $('#deviceStatusList').jqGrid('clearGridData');
+
+        $('#deviceStatusList').jqGrid(
+            'setGridParam',
+            {
+                datatype: 'json',
+                // mtype: 'post',
+                url: "../getDeviceRealTimeData?params2=0&userId="+tokenData.id+"&" + par,
+
+            }).trigger('reloadGrid');
+
+
+    }
+
+
+    function getStatistics() {
+        var dataList;
+        var data = GetData("../getDeviceRealTimeData?params2=0&userId="+tokenData.id, null);
+
+
+        if (data != null) {
+
+            var dev_count = data.length;
+            var dev_online = 0;
+            var dev_notOnline = 0;
+            var dev_zxl = 0;
+
+
+
+            for (var i = 0; i < dev_count; i++) {
+                if (!checkTM(data[i].cyDate)) {
+                    dev_notOnline = dev_notOnline + 1;
+                }
+            }
+
+            dev_online =  dev_count-dev_notOnline;
+
+            document.getElementById("dev_count").innerHTML = "总数:"+dev_count;
+            document.getElementById("dev_online").innerHTML = "在线数:"+(dev_online);
+            document.getElementById("dev_notOnline").innerHTML = "离线数:"+dev_notOnline;
+            document.getElementById("dev_zxl").innerHTML = "在线率:"+((100 * dev_online) / dev_count )+"%";
+
+
+
+
+        }
+    }
+
+
+    $(function () {
+
+        $.jgrid.defaults.styleUI = "Bootstrap";
+
+        $("#deviceStatusList")
+            .jqGrid(
+                {
+                    url: "../getDeviceRealTimeData",
+                    datatype: "json",
+                    postData: {"params2":0,"userId":tokenData.id},
+                    mtype: 'POST',
+                    height: 450,
+                    autowidth: true,
+                    shrinkToFit: true,
+                    rowNum: 10,
+                    loadonce: true,
+                    rowList: [10, 20, 30],
+                    colNames: ["通信状态", "设备ID", "设备名称", "DTUID", "管理单位",
+                        "联系电话", "详细地址", "上报日期"],
+                    colModel: [
+                        {
+                            name: "cyDate",
+                            index: "cyDate",
+                            width: 30,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+
+                                var onlineflag = checkTM(cellValue);
+                                var online;
+                                if (onlineflag) {
+                                    online = "<img src=\"images/zx.gif\"   title=\"通信正常\"/>";
+                                } else {
+                                    online = "<img src=\"images/lx.gif\"   title=\"通信异常\" />";
+                                }
+
+                                return online;
+                            }
+
+                        },
+                        {
+                            name: "deviceId",
+                            index: "deviceId",
+                            editable: true,
+                            width: 40,
+                            sortable: false
+
+                        },
+                        {
+                            name: "deviceName",
+                            index: "deviceName",
+                            width: 100,
+                            sortable: false,
+                            search: true
+                        },
+                        {
+                            name: "dtuId",
+                            index: "dtuId",
+                            width: 50,
+                            sortable: false,
+                            search: true
+                        },
+                        {
+                            name: "company",
+                            index: "company",
+                            width: 80,
+                            sortable: false
+
+                        },
+                        {
+                            name: "mangerTel",
+                            index: "mangerTel",
+                            width: 40,
+                            sortable: false,
+                            search: true
+                        },
+                        {
+                            name: "address",
+                            index: "address",
+                            width: 50,
+                            sortable: false
+
+                        },
+                        {
+                            name: "cyDate",
+                            index: "cyDate",
+                            width: 80,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+                                return DateFormat(cellValue);
+                            }
+
+                        }],
+                    pager: "#devicePager",
+                    viewrecords: true,
+                    /* 	caption : "jqGrid 示例2", */
+                    // add: true,
+                    // edit: true,
+                    // addtext: "Add",
+                    // edittext: "Edit",
+                    hidegrid: false
+                });
+
+
+        getCity();
+        $("#cityId").bsSuggest({
+
+            idField: "id",    //id字段
+            keyField: "cityName",   //key字段
+            effectiveFields: ["cityName"],//显示的有效字段
+            data: {
+                'value': cityList
+            },
+
+        }).on('onSetSelectValue', function (e, keyword) {
+
+            cityId_temp = keyword.id;
+            var area = {
+                "cityId": keyword.id
+            }
+            getArea(area);
+
+            $("#areaId").bsSuggest("destroy");
+            $("#areaId").val("");
+            areaId_temp = null;
+            $("#areaId").bsSuggest({
+
+                idField: "id",    //id字段
+                keyField: "areaName",   //key字段
+                effectiveFields: ["areaName"],//显示的有效字段
+                data: {
+                    'value': areaList
+                },
+
+            }).on('onSetSelectValue', function (e, keyword) {
+                console.log('onSetSelectValue: ', keyword);
+                areaId_temp = keyword.id;
+            });
+        });
+
+        $("#online").bsSuggest({
+            effectiveFields: ["onlineStatus"],
+            keyField: "onlineStatus",
+            data: {
+                'value': [{
+                    'id': '0',
+                    'onlineStatus': '全部'
+                }, {
+                    'id': '1',
+                    'onlineStatus': '在线'
+                }, {
+                    'id': '2',
+                    'onlineStatus': '离线'
+                }
+
+                ]
+            }
+        }).on(
+            'onSetSelectValue',
+            function (e, keyword) {
+                console.log('onSetSelectValue: ', keyword);
+
+                params1_temp = keyword.id;
+
+                //     $('#deviceStatusList').jqGrid('clearGridData');
+                //     $('#deviceStatusList').jqGrid(
+                //         // 'setGridParam',
+                //         // {
+                //         //     datatype: 'json',
+                //         //     url: "../getDeviceStatus?cityId=-1&untisId="
+                //         //         + par.untisId + "&online=" + par.online
+                //         // }).trigger('reloadGrid');
+                //
+            });
+
+
+        getStatistics();
+
+
+    });
+
+
+    $(window).bind("resize", function () {
+        var width = $(".jqGrid_wrapper").width();
+        $("#deviceStatusList").setGridWidth(width)
+    });
+
+
+</script>
+
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+</html>

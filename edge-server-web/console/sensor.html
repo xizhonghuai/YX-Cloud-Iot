@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/tabs_panels.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:53 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - 选项卡 &amp; 面板</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link
+            href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+            rel="stylesheet">
+    <link href="css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class="white-bg">
+<div class="wrapper">
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+
+        <div class="col-sm-8">
+
+            <div class="row">
+                <h2 align="center"><span class="text-navy" id="sensor">传感器列表信息</span></h2>
+                <div class="hr-line-dashed"></div>
+                <div class="input-group">
+                    <input class="input form-control" id="findPar" placeholder="查找"
+                           type="text"> <span
+                        class="input-group-btn">
+                            <button class="btn btn btn-primary" onclick="finddata()"
+                                    type="button">
+														<i class="fa fa-search"></i> 搜索
+													</button>
+												</span>
+                </div>
+
+                <br>
+
+                <div class="jqGrid_wrapper" style="height: 400px">
+                    <table id="sensorList"></table>
+                    <div id="userPager"></div>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+
+            <div class="row">
+
+                <h6 class="page-header">传感器配置</h6>
+
+                <div class="form-group">
+                    <label>设备ID *</label>
+                    <input class="form-control" id="deviceId" name="deviceId"
+                           type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>绑定字段 *</label> &nbsp;<span class="badge badge-primary" onclick="tips('键入各参数对应字段名称',this)"
+                                                      style="cursor:pointer">tips</span>
+                    <input class="form-control" id="sensorField" name="sensorField"
+                           placeholder="" type="text">
+
+
+                </div>
+
+
+                <div class="form-group">
+                    <label>参数名称 *</label>
+                    <input class="form-control" id="propertyName" name="propertyName" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>显示单位 *</label>
+                    <input class="form-control" id="unit" name="unit" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>黄色预警值</label>
+                    <input class="form-control" id="warnY" name="warnY" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>红色预警值</label>
+                    <input class="form-control" id="warnR" name="warnR" type="text">
+                </div>
+
+                <div class="hr-line-dashed"></div>
+                <div class="row">
+
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" onclick="addData()" type="button">添加</button>
+                    </div>
+
+<!--                    <div class="col-sm-2">-->
+<!--                        <button class="btn btn-primary" onclick="updateData()" type="button">修改</button>-->
+<!--                    </div>-->
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary" onclick="deleteData()" type="button">删除</button>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+
+            </div>
+
+
+        </div>
+
+        <div class="col-sm-2"></div>
+    </div>
+</div>
+
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script src="js/common.js"></script>
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+    var currentSensor_id = null;
+    var currentSensor_deviceId = null;
+
+
+    $(function () {
+
+        $.jgrid.defaults.styleUI = "Bootstrap";
+
+        $("#sensorList").jqGrid({
+            url: null,
+            datatype: "json",
+            height: 310,
+            autowidth: true,
+            shrinkToFit: true,
+            rowNum: 10,
+            loadonce: true,
+            rowList: [10, 20, 30],
+            colNames: ["sensorId", "设备id", "绑定字段", "参数属性", "单位量纲", "黄色预警值", "红色预警值"],
+            colModel: [
+                {
+                    name: "id",
+                    index: "id",
+                    width: 20,
+                    sortable: false
+                },
+                {
+                    name: "deviceId",
+                    index: "deviceId",
+                    width: 20,
+                    sortable: false
+                },
+                {
+                    name: "sensorField",
+                    index: "sensorField",
+                    width: 30,
+                    sortable: false
+
+
+                }, {
+                    name: "propertyName",
+                    index: "propertyName",
+                    editable: true,
+                    width: 40,
+                    sortable: false
+                }, {
+                    name: "unit",
+                    index: "unit",
+                    width: 30,
+                    sortable: false
+
+                }, {
+                    name: "warnY",
+                    index: "warnY",
+                    width: 30,
+                    sortable: false
+
+                }, {
+                    name: "warnR",
+                    index: "warnR",
+                    width: 30,
+                    sortable: false
+
+                }],
+            pager: "#userPager",
+            viewrecords: true,
+            /* 	caption : "jqGrid 示例2", */
+            add: true,
+            edit: true,
+            addtext: "Add",
+            edittext: "Edit",
+            hidegrid: false,
+            ondblClickRow: function (row) {
+                var rowData = $('#sensorList').jqGrid('getRowData', row);
+                currentSensor_id = rowData.id;
+                currentSensor_deviceId = rowData.deviceId;
+                $("#deviceId").val(currentSensor_deviceId);
+
+                $("#sensorField").val(rowData.sensorField);
+                $("#propertyName").val(rowData.propertyName);
+                $("#unit").val(rowData.unit);
+                $("#warnY").val(rowData.warnY);
+                $("#warnR").val(rowData.warnR);
+
+                var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                $(document).scrollTop(h);
+
+
+            },
+
+        });
+
+
+        $("#sensorList").jqGrid('setGroupHeaders', {
+            useColSpanStyle: true,
+            groupHeaders: [
+                {startColumnName: 'bindField', numberOfColumns: 5, titleText: '传感器信息'},
+
+            ]
+        });
+
+    });
+
+
+    function finddata() {
+
+        var deviceId = $("#findPar").val();
+
+        var par = {
+            "deviceId": deviceId,
+        };
+
+
+        document.getElementById("sensor").innerHTML = deviceId + "-传感器列表信息";
+
+
+        $('#sensorList').jqGrid('clearGridData');
+
+        $('#sensorList').jqGrid(
+            'setGridParam',
+            {
+                datatype: 'json',
+                mtype: 'post',
+                postData: par,
+                url: "../getSensor"
+
+            }).trigger('reloadGrid');
+
+    }
+
+    function addData() {
+
+        var request = new Object();
+
+        var deviceId = $("#deviceId").val().trim();
+        var sensorField = $("#sensorField").val().trim();
+        var propertyName = $("#propertyName").val().trim();
+        var unit = $("#unit").val().trim();
+        var warnY = $("#warnY").val().trim();
+        var warnR = $("#warnR").val().trim();
+
+        if (deviceId.length <= 0 && sensorField.length <= 0 && propertyName.length <= 0 && unit.length <= 0) {
+            warningMsg("关键属性不能为NULL");
+
+            return false;
+        }
+
+        request.deviceId = deviceId;
+        request.sensorField = sensorField;
+        request.propertyName = propertyName;
+        request.unit = unit;
+
+        if (warnY.length > 0) {
+            request.warnY = warnY;
+        }
+
+        if (warnR.length > 0) {
+            request.warnR = warnR;
+        }
+
+
+        var data = GetData("../addSensor", request);
+        if (data.statusCode == 200) {
+
+            successMsg("添加成功")
+
+        } else {
+            errorMsg("添加失败！");
+        }
+    }
+
+
+    // function updateData() {
+    //     var request = new Object();
+    //
+    //     var deviceId = $("#deviceId").val().trim();
+    //     var bindField = $("#bindField").val().trim();
+    //     var propertyName = $("#propertyName").val().trim();
+    //     var unit = $("#unit").val().trim();
+    //     var warnY = $("#warnY").val().trim();
+    //     var warnR = $("#warnR").val().trim();
+    //
+    //     if (deviceId.length <= 0 || bindField.length <= 0 || propertyName.length <= 0 || unit.length <= 0) {
+    //         warningMsg("关键属性不能为NULL");
+    //
+    //         return false;
+    //     }
+    //
+    //
+    //     if (currentSensor_id == null || currentSensor_deviceId != deviceId) {
+    //         warningMsg("关键属性不能为NULL,修改或删除操作时，首先查找数据，然后在表格单元格中双击需要修改或删除的数据");
+    //
+    //         return false;
+    //     }
+    //     request.id = currentSensor_id;
+    //     request.deviceId = deviceId;
+    //     request.bindField = bindField;
+    //     request.propertyName = propertyName;
+    //     request.unit = unit;
+    //
+    //     if (warnY.length > 0) {
+    //         request.warnY = warnY;
+    //     }
+    //
+    //     if (warnR.length > 0) {
+    //         request.warnR = warnR;
+    //     }
+    //
+    //
+    //     var data = GetData("../updateSensor", request);
+    //     if (data.statusCode == 200) {
+    //
+    //         successMsg("修改成功")
+    //
+    //     } else {
+    //         errorMsg("修改失败！");
+    //     }
+    //
+    // }
+
+    function deleteData() {
+
+        var request = new Object();
+
+        var deviceId = $("#deviceId").val().trim();
+
+        if (deviceId.length <= 0) {
+            warningMsg("关键属性不能为NULL");
+
+            return false;
+        }
+
+
+        if (currentSensor_id == null || currentSensor_deviceId != deviceId) {
+            warningMsg("关键属性不能为NULL,修改或删除操作时，首先查找数据，然后在表格单元格中双击需要修改或删除的数据");
+
+            return false;
+        }
+        request.id = currentSensor_id;
+        request.deviceId = deviceId;
+
+
+        if (warnY.length > 0) {
+            request.warnY = warnY;
+        }
+
+        if (warnR.length > 0) {
+            request.warnR = warnR;
+        }
+
+
+        var data = GetData("../deleteSensor", request);
+        if (data.statusCode == 200) {
+
+            successMsg("删除成功")
+
+        } else {
+            errorMsg("删除失败！");
+        }
+    }
+</script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/tabs_panels.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:53 GMT -->
+</html>

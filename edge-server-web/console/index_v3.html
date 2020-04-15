@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/index_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:46 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - 首页示例二</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+
+    <!-- Morris -->
+    <link href="css/plugins/morris/morris-0.4.3.min.css" rel="stylesheet">
+
+    <!-- Gritter -->
+    <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" rel="stylesheet"/>
+    <link href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" rel="stylesheet"/>
+
+
+    <style>
+        .xline {
+            border-bottom: solid 1px #dfe9ee;
+            height: 5px;
+        }
+    </style>
+</head>
+
+<body class="gray-bg">
+
+
+<div align="center" id="container" style="width: 100%; height: 100%; border: 0px ridge;"
+     tabindex="0"></div>
+
+
+
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/flot/jquery.flot.js"></script>
+<script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="js/plugins/flot/jquery.flot.spline.js"></script>
+<script src="js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="js/plugins/flot/jquery.flot.pie.js"></script>
+<script src="js/plugins/flot/jquery.flot.symbol.js"></script>
+<script src="js/plugins/peity/jquery.peity.min.js"></script>
+<script src="js/demo/peity-demo.min.js"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="js/common.js"></script>
+
+
+<script src="http://webapi.amap.com/maps?v=1.4.3&key=c7718b9560aef2d7e882728c6ddc1245"
+        type="text/javascript"></script>
+<script>
+
+
+    var token = GetData("../getToken",null);
+    var tokenData = JSON.parse(token.result);
+
+    var mapObj = new AMap.Map('container', {
+        mapStyle: "amap://styles/fresh",
+    });
+
+    var infoWindow = new AMap.InfoWindow({
+        offset: new AMap.Pixel(4, -30)
+    });
+
+
+    function img_type(time) {
+        var zx = "images/zx.gif";
+        var lx = "images/zx.gif";
+
+        var imgUrl = null;
+
+        if (checkTM(DateFormat(time))) {
+            imgUrl = zx;
+        } else {
+            imgUrl = lx;
+        }
+        var img = new AMap.Icon({
+            image: imgUrl
+        });
+        return img;
+    }
+
+    function createSite(dev) {
+        var point = [dev.latitude, dev.longitude];
+
+        var marker = new AMap.Marker({
+            icon: img_type(dev.cyDate),
+            position: point,
+            extData: dev
+            // animation : "AMAP_ANIMATION_BOUNCE",
+            //					map : mapobj
+        });
+
+        AMap.event.addListener(marker, 'mouseover',
+            function (e) {
+
+                var info = infobox(e.target.getExtData());
+                infoWindow.setContent(info);
+                infoWindow.open(mapObj, e.target
+                    .getPosition());//鼠标点击marker弹出信息窗体
+                mapObj.setCenter(e.target.getPosition());
+
+            });
+
+        AMap.event.addListener(marker, 'dblclick',
+            function (e) {
+
+                mapObj.setZoom(18);
+                mapObj.setCenter(e.target.getPosition());
+            });
+
+
+        return marker;
+    }
+
+
+    function addMaker(point) {
+
+        var maker = createSite(point);
+        mapObj.add(maker);
+        // mapObj.setZoom(12);
+        // mapObj.setCenter(msgObj.location);
+
+    }
+
+
+    var deviceList = GetData("../getDeviceBasicsInfo",{"userId":tokenData.id});
+
+
+
+    if (deviceList != null) {
+
+        for (var i = 0; i < deviceList.length; i++) {
+
+
+            addMaker(deviceList[i]);
+        }
+
+
+    }
+
+    function infobox(data) {
+        var title = data.deviceId+data.deviceName;
+        var id = data.deviceId;
+        var html = [];
+        html.push("<div>");
+        html.push("<div>");
+        html
+            .push("<span style=\"float: left;\"> <p style=\"color: #0a5aa0\" "
+                + "</p>"+data.deviceId+"</span>");
+        html.push("</div>");
+        html.push("<br/>");
+        html.push("<div style=\"padding: 0px 0px 0px 0px;\">");
+        html.push("<div class=\"xline\"></div>");
+        html.push("测站名：" + data.deviceName + " <br />");
+        html.push("</div>");
+        html.push("</div>");
+
+        return html.join(" ");
+    }
+
+    var infoWindowContent =
+        '<div className="custom-infowindow input-card">' +
+        '<label style="color:grey">故宫博物院</label>' +
+        '<div class="input-item">' +
+        '<div class="input-item-prepend">' +
+        '<span class="input-item-text" >经纬度</span>' +
+        '</div>' +
+        '<input id="lnglat" type="text" />' +
+        '</div>' +
+        // 为 infowindow 添加自定义事件
+        '<input id="lnglat2container" type="button" class="btn" value="获取该位置经纬度" onclick="getLngLat()"/>' +
+        '</div>';
+
+
+    // document.querySelector("#add-marker").onclick = function() {
+    //     locahost();
+    // }
+    //			AMapUI.loadUI(['control/BasicControl'], function(BasicControl) {
+    //				//图层切换控件
+    //				mapObj.addControl(new BasicControl.LayerSwitcher({
+    //					position : 'rt'
+    //				}));
+    //			});
+
+</script>
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/index_v3.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:18:49 GMT -->
+</html>

@@ -12,6 +12,7 @@ import lib.FileUntis;
 import lib.RestResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,6 +57,10 @@ public class DeCodePluginController {
                                    @RequestParam("description") String description) {
         if (file.isEmpty()) {
             return new RestResult("file is null","11011");
+        }
+
+        if (StringUtils.isEmpty(name) || StringUtils.isEmpty(executeClass)) {
+            return new RestResult("params is null","11011");
         }
 
         String fileName = file.getOriginalFilename();

@@ -1,0 +1,37 @@
+ <!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>楼块图层</title>
+    <link rel="stylesheet" href="http://cache.amap.com/lbs/static/main1119.css"/>
+    <script src="http://webapi.amap.com/maps?v=1.4.6&key=您申请的key值"></script>
+</head>
+
+
+<body>
+<div id="container"></div>
+<script>
+    var map = new AMap.Map('container', {
+        center: [116.397428, 39.90923],
+        viewMode:'3D',
+        pitch:60,
+        rotation:-35,
+        features:['bg','road','point'],//隐藏默认楼块
+        mapStyle:'amap://styles/light',
+        layers: [
+            new AMap.TileLayer.Satellite(),//高德默认标准图层
+            new AMap.Buildings({
+                zooms:[16,18],
+                zIndex:10,
+                heightFactor:2//2倍于默认高度，3D下有效
+            })//楼块图层
+        ],
+        zoom: 16
+    });
+</script>
+<script type="text/javascript"  src='https://a.amap.com/jsapi_demos/static/resource/js/addZoomBar.js'></script>
+
+</body>
+</html>

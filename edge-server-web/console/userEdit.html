@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/tabs_panels.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:53 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - 选项卡 &amp; 面板</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link
+            href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+            rel="stylesheet">
+    <link href="css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel blank-panel">
+
+                <div class="panel-heading">
+                    <div class="panel-title m-b-md"></div>
+                    <div class="panel-options">
+
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab"
+                                                  href="tabs_panels.html#tab-4"><i class="fa fa-user"></i>账户列表</a>
+                            </li>
+                            <li class=""><a data-toggle="tab"
+                                            href="tabs_panels.html#tab-5"><i class="fa fa-edit"></i>信息修改</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="tab-content">
+
+
+                        <div class="tab-pane active" id="tab-4">
+                            <div class="col-sm-12">
+                                <div class="jqGrid_wrapper">
+                                    <table id="userList"></table>
+                                    <div id="userPager"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="tab-5">
+
+                            <div class="col-sm-12">
+                                <div class="ibox">
+                                    <div class="ibox-content">
+                                        <h2>输入需要修改的用户名</h2>
+                                        <div class="input-group">
+                                            <input class="input form-control" id="findPar" placeholder="查找"
+                                                   type="text"> <span
+                                                class="input-group-btn">
+													<button class="btn btn btn-primary" onclick="findUser()"
+                                                            type="button">
+														<i class="fa fa-search"></i> 搜索
+													</button>
+												</span>
+                                        </div>
+                                        <div action="#" class="form-horizontal m-t" id="edituserForm">
+
+                                            <h6 class="page-header">修改用户基本资料</h6>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">用户名：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" disabled="disabled" id="userName"
+                                                           name="userName" type="text">
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">账户权限：</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-control" id="authorizationId"
+                                                            name="authorizationId">
+                                                        <option value="0">普通用户</option>
+                                                        <option value="1">管理员</option>
+                                                        <option value="2">超级管理员</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">设置密码：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="userPassword" name="userPassword"
+                                                           onblur="trim(this.id)" type="password">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">确认密码：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="userPassword_" name="userPassword_"
+                                                           onblur="trim(this.id)" type="password">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">姓名：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="realName" name="realName"
+                                                           onblur="trim(this.id)" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">公司名称：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="CompanyName" name="CompanyName"
+                                                           onblur="trim(this.id)" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">联系电话：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="telephone" name="telephone"
+                                                           onblur="trim(this.id)" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-sm-3 control-label">平台显示名称：</label>
+                                                <div class="col-sm-8">
+                                                    <input class="form-control" id="systemTitle" name="systemTitle"
+                                                           onblur="trim(this.id)" type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-sm-4 col-sm-offset-3">
+                                                    <button class="btn btn-primary" onclick="saveData()"
+                                                            type="button">保存
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/jquery.min.js?v=2.1.4"></script>
+    <script src="js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="js/content.min.js?v=1.0.0"></script>
+    <script src="js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+    <script src="js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+    <script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+    <script src="js/plugins/toastr/toastr.min.js"></script>
+    <script src="js/common.js"></script>
+    <script charset="UTF-8"
+            src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+
+
+    <script type="text/javascript">
+
+
+        $(function () {
+
+            $.jgrid.defaults.styleUI = "Bootstrap";
+
+            $("#userList").jqGrid({
+                url: "../getUser",
+                datatype: "json",
+                mtype: "POST",
+                postData: null,
+                height: 450,
+                autowidth: true,
+                shrinkToFit: true,
+                rowNum: 10,
+                loadonce: true,
+                jsonReader: {root: "result"},
+                rowList: [10, 20, 30],
+                colNames: ["用户名", "角色类型", "姓名", "公司", "联系电话", "平台类型", "平台显示名称", "注册日期"],
+                colModel: [{
+                    name: "userName",
+                    index: "userName",
+                    width: 30,
+                    sortable: false
+                }, {
+                    name: "authorizationId",
+                    index: "authorizationId",
+                    editable: true,
+                    width: 40,
+                    sortable: false,
+                    formatter: function (cellValue, options, rowObject) {
+                        if (cellValue == 0) {
+                            return "普通用户";
+                        } else if (cellValue == 1) {
+                            return "管理员";
+                        } else if (cellValue == 2) {
+                            return "超级管理员";
+                        }
+                    }
+
+                }, {
+                    name: "realName",
+                    index: "realName",
+                    width: 30,
+                    sortable: false
+
+                }, {
+                    name: "companyName",
+                    index: "companyName",
+                    width: 50,
+                    sortable: false
+
+                }, {
+                    name: "telephone",
+                    index: "telephone",
+                    width: 30,
+                    sortable: false
+
+                }, {
+                    name: "systemId",
+                    index: "systemId",
+                    width: 30,
+                    sortable: false,
+                    formatter: function (cellValue, options, rowObject) {
+                        if (cellValue == 1) {
+                            return "水文";
+                        } else if (cellValue == 2) {
+                            return "电力";
+                        } else if (cellValue == 3) {
+                            return "市政";
+                        }
+                        else if (cellValue == 0) {
+                            return "缺省";
+                        }
+
+                        //return DateFormat(cellValue);
+                    }
+
+                }, {
+                    name: "systemTitle",
+                    index: "systemTitle",
+                    width: 60,
+                    sortable: false
+
+                }, {
+                    name: "regDate",
+                    index: "regDate",
+                    width: 30,
+                    sortable: false,
+                    formatter: function (cellValue, options, rowObject) {
+
+                        return DateFormat(cellValue);
+                    }
+
+                }],
+                pager: "#userPager",
+                viewrecords: true,
+                /* 	caption : "jqGrid 示例2", */
+                add: true,
+                edit: true,
+                addtext: "Add",
+                edittext: "Edit",
+                hidegrid: false
+            });
+
+        });
+
+        function trim(id) {
+            $("#" + id).val($.trim($("#" + id).val()));
+        }
+
+        function findUser() {
+
+
+            $("#userName").val(null);
+            $("#userPassword").val(null);
+            $("#userPassword_").val(null);
+            $("#CompanyName").val(null);
+            $("#realName").val(null);
+            $("#telephone").val(null);
+            $("#authorizationId").val(0);
+            $("#systemTitle").val(null);
+
+
+            var par = $("#findPar").val();
+            var user_temp = GetData("../getUser?userName=" + par, null);
+            if (user_temp.statusCode != 200) {
+
+                warningMsg("未查找到相关用户");
+                return;
+            }
+
+
+            if (user_temp.result.length != null) {
+                var user = user_temp.result[0];
+
+                $("#userName").val(user.userName);
+                $("#userPassword").val(user.userPassword);
+                $("#userPassword_").val(user.userPassword);
+                $("#CompanyName").val(user.companyName);
+                $("#realName").val(user.realName);
+                $("#telephone").val(user.telephone);
+                $("#authorizationId").val(user.authorizationId);
+                $("#systemTitle").val(user.systemTitle);
+
+
+            }
+        }
+
+        function saveData() {
+
+            var request = new Object();
+
+            var userName = $("#userName").val().trim();
+            var userPassword = $("#userPassword").val().trim();
+            var userPassword_ = $("#userPassword_").val().trim();
+            var CompanyName = $("#CompanyName").val().trim();
+            var realName = $("#realName").val().trim();
+            var telephone = $("#telephone").val().trim();
+            var authorizationId = $("#authorizationId").val().trim();
+            var systemTitle = $("#systemTitle").val().trim();
+
+            if (userName.length <= 0 || userPassword.length <= 0 || systemTitle.length <= 0) {
+
+                warningMsg("关键参数不能为空");
+
+                return false;
+            }
+
+            if (userPassword != userPassword_) {
+                warningMsg("两次密码输入不一致");
+                return false;
+            }
+
+            request.userName = userName
+            request.userPassword = userPassword;
+            request.CompanyName = CompanyName;
+            request.realName = realName;
+            request.telephone = telephone;
+            request.authorizationId = authorizationId;
+            request.systemTitle = systemTitle;
+
+            var data = GetData("../updateUser", request);
+            if (data.statusCode == 200) {
+
+                successMsg("修改成功");
+
+            } else {
+
+                errorMsg("修改失败");
+            }
+
+
+
+        }
+
+
+    </script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/tabs_panels.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:53 GMT -->
+</html>

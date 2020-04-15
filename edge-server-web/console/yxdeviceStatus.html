@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - jqGird</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <!-- jqgrid-->
+    <link href="css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+    <style>
+        /* Additional style to fix warning dialog position */
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>已连接设备</h5>
+                </div>
+                <div class="ibox-content">
+
+
+                    <div class="row">
+
+
+
+
+                    <div class="jqGrid_wrapper">
+                        <table id="deviceStatusList"></table>
+                        <div id="devicePager"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script>
+
+
+
+//    var token = GetData("../getToken",null);
+//
+//    var tokenData = JSON.parse(token.result);
+
+
+
+
+//
+//    var cityList = new Array();
+//    var areaList = new Array();
+//
+//    var cityId_temp = null;
+//    var areaId_temp = null;
+//    var params1_temp = null;
+
+
+    // var par = new Object()
+    // par.areaId = null;
+    // // par.deviceId = null;
+    // // par.deviceName = null;
+    // // par.params1 = null;
+
+//
+//    function getCity() {
+//        var data = GetData("../getCity", null);
+//        if (data.statusCode == 200) {
+//            cityList = data.result;
+//            cityList.unshift({"id":-1,"cityName":"全部"});
+//        }
+//    }
+//
+//    function getArea(area) {
+//        var data = GetData("../getArea", area);
+//        if (data.statusCode == 200) {
+//            areaList = data.result;
+//            areaList.unshift({"id":-1,"areaName":"全部"});
+//        }
+//    }
+
+  /*  function findData() {
+
+        var deviceId = $("#deviceId").val().trim();
+        // var deviceName = $("#deviceName").val().trim();
+        var deviceName = null;
+
+
+        var dev = new Object();
+
+        var par = "";
+
+        if (deviceId.length > 0) par = par + "deviceId=" + deviceId + "&";
+        // if (deviceName.length > 0) par = par+"deviceName="+(deviceName)+"&";
+        if ((areaId_temp != null) && (areaId_temp != -1)) par = par + "areaId=" + areaId_temp + "&";
+        if ((cityId_temp != null) && (cityId_temp != -1)) par = par + "cityId=" + cityId_temp + "&";
+
+        if (params1_temp != null) par = par + "params1=" + params1_temp + "&";
+
+
+
+
+        $('#deviceStatusList').jqGrid('clearGridData');
+
+        $('#deviceStatusList').jqGrid(
+            'setGridParam',
+            {
+                datatype: 'json',
+                // mtype: 'post',
+                url: "../getDeviceRealTimeData?params2=0&userId="+tokenData.id+"&" + par,
+
+            }).trigger('reloadGrid');
+
+
+    }*/
+
+
+   /* function getStatistics() {
+        var dataList;
+        var data = GetData("/api/device/manage/getOnline");
+
+
+        if (data != null) {
+
+            var dev_count = data.length;
+            var dev_online = 0;
+            var dev_notOnline = 0;
+            var dev_zxl = 0;
+
+
+
+            for (var i = 0; i < dev_count; i++) {
+                if (!checkTM(data[i].cyDate)) {
+                    dev_notOnline = dev_notOnline + 1;
+                }
+            }
+
+            dev_online =  dev_count-dev_notOnline;
+
+            document.getElementById("dev_count").innerHTML = "总数:"+dev_count;
+            document.getElementById("dev_online").innerHTML = "在线数:"+(dev_online);
+            document.getElementById("dev_notOnline").innerHTML = "离线数:"+dev_notOnline;
+            document.getElementById("dev_zxl").innerHTML = "在线率:"+((100 * dev_online) / dev_count )+"%";
+
+
+
+
+        }
+    }*/
+
+
+    $(function () {
+
+        $.jgrid.defaults.styleUI = "Bootstrap";
+
+        $("#deviceStatusList")
+            .jqGrid(
+                {
+                    url: yxUrl + "/api/device/manage/getOnline",
+                    datatype: "json",
+                    jsonReader: {
+                        root: "data",
+                    },
+//                    postData: {"params2":0,"userId":tokenData.id},
+                    mtype: 'GET',
+                    height: 450,
+                    autowidth: true,
+                    shrinkToFit: true,
+                    rowNum: 10,
+                    loadonce: true,
+                    rowList: [10, 20, 30],
+                    colNames: ["设备ID", "所属服务", "协议", "地址",
+                        "注册时间", "活动时间"],
+                    colModel: [
+                        {
+                            name: "regId",
+                            index: "regId",
+                            editable: true,
+                            width: 40,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+
+
+                                var status;
+
+                                status = cellValue + "&nbsp;&nbsp;<img src=\"images/zx.gif\"   title=\"正常\"/>";
+
+                                return status;
+                            }
+
+                        },
+                        {
+                            name: "serviceId",
+                            index: "serviceId",
+                            width: 30,
+                            sortable: false,
+                            search: true
+                        },
+                        {
+                            name: "type",
+                            index: "type",
+                            width: 50,
+                            sortable: false,
+                            search: true
+                        },
+                        {
+                            name: "address",
+                            index: "address",
+                            width: 80,
+                            sortable: false
+
+                        },
+                        {
+                            name: "registerTime",
+                            index: "registerTime",
+                            width: 40,
+                            sortable: false,
+                            search: true,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+                                return DateFormat(cellValue);
+                            }
+                        },
+                        {
+                            name: "activityTime",
+                            index: "activityTime",
+                            width: 40,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+                                return DateFormat(cellValue);
+                            }
+
+                        }],
+                    pager: "#devicePager",
+                    viewrecords: true,
+                    /* 	caption : "jqGrid 示例2", */
+                    // add: true,
+                    // edit: true,
+                    // addtext: "Add",
+                    // edittext: "Edit",
+                    hidegrid: false
+                });
+    });
+
+    $(window).bind("resize", function () {
+        var width = $(".jqGrid_wrapper").width();
+        $("#deviceStatusList").setGridWidth(width)
+    });
+
+
+</script>
+
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+</html>

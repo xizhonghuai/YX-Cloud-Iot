@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link
+            href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+            rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="plugins/fileinput/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+
+
+</head>
+
+
+<body class="panel-primary">
+<div class="wrapper wrapper-content animated fadeInRight ">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="">
+
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+
+
+                            <div class="form-group">
+                                <label>名称 </label>
+                                <input class="form-control required" id="ruleEngineName" name="ruleEngineName"
+                                       type="text">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>执行主类</label>
+                                <input class="form-control required" id="executeClass" name="executeClass" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>描述</label>
+                                <input class="form-control" id="description" name="description" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>文件上传</label>
+
+                                <input id="input-ke-2" type="file" class="file" data-preview-file-type="text" >
+                            </div>
+
+
+
+
+
+                           <!-- <div class="hr-line-dashed"></div>
+                            <div align="center">
+
+                                <button class="btn btn-primary" onclick="postData()" type="button">提交</button>
+
+                            </div>
+
+
+                            <div class="hr-line-dashed"></div>-->
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/messages_zh.min.js"></script>
+<script src="js/demo/form-validate-demo.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+
+<!-- the main fileinput plugin file -->
+<script src="plugins/fileinput/js/fileinput.min.js"></script>
+
+<script src="plugins/fileinput/js/locales/zh.js"></script>
+
+<script type="text/javascript">
+
+
+   /* function postData() {
+
+        var request = new Object();
+
+        var deviceId = $("#deviceId").val().trim();
+        var cameraName = $("#cameraName").val().trim();
+        var devUserName = $("#devUserName").val().trim();
+        var devUserPassword = $("#devUserPassword").val().trim();
+        var devUserPassword_ = $("#devUserPassword_").val().trim();
+
+
+        if (deviceId.length <= 0 && cameraName.length <= 0 && devUserName.length <= 0 && devUserPassword.length <= 0) {
+            warningMsg("关键属性不能为NULL");
+
+            return false;
+        }
+
+        if (devUserPassword != devUserPassword_){
+            warningMsg("两次输入密码不一致");
+
+            return false;
+        }
+
+        request.deviceId = deviceId;
+        request.cameraName = cameraName;
+        request.devUserName = devUserName;
+        request.devUserPassword = devUserPassword;
+
+
+
+        var data = GetData("../addCamera", request);
+        if (data.statusCode == 200) {
+
+            successMsg("添加成功")
+
+        } else {
+            errorMsg("添加失败！");
+        }
+    }*/
+
+
+
+   // 上传附件
+   var task_file_delete_url = "${pageContext.request.contextPath}/upload1.action";
+   $("#input-ke-2").fileinput({
+       language:'zh',                                          // 多语言设置，需要引入local中相应的js，例如locales/zh.js
+       dropZoneTitle: '可以将文件拖放到这里',
+       theme: "explorer-fa",                               // 主题
+       uploadUrl: task_file_delete_url,         // 上传地址
+       minFileCount: 1,                                        // 最小上传数量
+       maxFileCount: 1,                                        // 最大上传数量
+       overwriteInitial: false,                        // 覆盖初始预览内容和标题设置
+       showCancel:false,                                       // 显示取消按钮
+       showZoom:false,                                         // 显示预览按钮
+       showCaption:false,                                  // 显示文件文本框
+       dropZoneEnabled:true,                          // 是否可拖拽
+       uploadLabel:"上传",                         // 上传按钮内容
+       browseLabel: '选择附件',                            // 浏览按钮内容
+       showRemove:false,                                       // 显示移除按钮
+       browseClass:"btn btn-primary",                        // 浏览按钮样式
+       uploadClass:"btn btn-primary",                        // 上传按钮样式
+       // uploadExtraData: {'taskId':1,'createBy':1,'createByname':1},   // 上传数据
+       hideThumbnailContent:false,                  // 是否隐藏文件内容
+       fileActionSettings: {                               // 在预览窗口中为新选择的文件缩略图设置文件操作的对象配置
+           showRemove: false,                                   // 显示删除按钮
+           showUpload: true,                                   // 显示上传按钮
+           showDownload: false,                            // 显示下载按钮
+           showZoom: false,                                    // 显示预览按钮
+           showDrag: false,                                        // 显示拖拽
+           removeIcon: '<span>X</span>',   // 删除图标
+           uploadIcon: '<span>↑</span>',     // 上传图标
+           uploadRetryIcon: '<span>☇</span>'  // 重试图标
+       }
+
+
+       /*  ,
+
+         initialPreview: [                                                                   //初始预览内容
+             "https://picsum.photos/1920/1080?image=101",
+             "https://picsum.photos/1920/1080?image=102",
+             "https://picsum.photos/1920/1080?image=103"
+         ],
+         initialPreviewConfig: [                                                     // 初始预览配置 caption 标题，size文件大小 ，url 删除地址，key删除时会传这个
+             {caption: "picture-1.jpg", size: 329892, width: "120px", url: task_file_delete_url, key: 101},
+             {caption: "picture-2.jpg", size: 872378, width: "120px", url: task_file_delete_url, key: 102},
+             {caption: "picture-3.jpg", size: 632762, width: "120px", url: task_file_delete_url, key: 103}
+         ]*/
+   });
+   // 上传成功回调
+   $("#input-ke-2").on("filebatchuploadcomplete", function() {
+       // layer.msg("上传附件成功");
+       // setTimeout("closeUpladLayer()",2000)
+   });
+   // 上传失败回调
+   $('#input-ke-2').on('fileerror', function(event, data, msg) {
+       // layer.msg(data.msg);
+       // tokenTimeOut(data);
+   });
+
+
+</script>
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:16 GMT -->
+</html>

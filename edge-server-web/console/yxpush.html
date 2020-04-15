@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - jqGird</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <!-- jqgrid-->
+    <link href="css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+
+    <style>
+        /* Additional style to fix warning dialog position */
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>摄像头信息</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="row">
+
+
+                        <div class="col-lg-3">
+
+                            <input AUTOCOMPLETE="off" class="form-control" id="pluginId"
+                                   placeholder="转发器名称" type="text">
+
+                        </div>
+
+
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <button class="btn btn-primary " onclick="findData()"
+                                        type="button">
+                                    <i class="fa fa-search"></i> <span class="bold">搜索</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+                    <p>
+
+                        <button class="btn btn-primary " type="button"
+                                onclick="addData()">
+                            <i class="fa fa-plus"></i>新增
+                        </button>
+                        &nbsp; &nbsp;
+<!--                        <button class="btn btn-info " onclick="updateDevice()"-->
+<!--                                type="button">-->
+<!--                            <i class="fa fa-edit"></i> 修改-->
+<!--                        </button>-->
+                        &nbsp; &nbsp;
+                        <button class="btn btn-warning " onclick="deleteData()"
+                                type="button">
+                            <i class="fa fa-close"></i>  删除
+                        </button>
+                    </p>
+
+                    <div class="jqGrid_wrapper">
+                        <table id="camList"></table>
+                        <div id="orderPager"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script src="js/common.js"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+
+
+
+
+
+<script>
+
+    $(function () {
+
+        $.jgrid.defaults.styleUI = "Bootstrap";
+
+        $("#camList")
+            .jqGrid(
+                {
+                    url: "../getCamera",
+                    datatype: "json",
+                    mtype: 'POST',
+                    postData:null,
+                    height: 450,
+                    autowidth: true,
+                    shrinkToFit: true,
+                    rowNum: 10,
+
+                    rowList: [10, 20, 30],
+                    colNames: ["摄像头ID","测站编码","摄像头名称", "摄像头登录名称"],
+                    colModel: [
+                        {
+                            name: "id",
+                            index: "id",
+                            width: 20,
+                            sortable: false,
+                            key:true
+                        },
+                        {
+                            name: "deviceId",
+                            index: "deviceId",
+                            width: 30,
+                            sortable: false,
+
+                        },
+                        {
+                            name: "cameraName",
+                            index: "cameraName",
+                            editable: true,
+                            width: 40,
+                            sortable: false
+                        },
+                        {
+                            name: "devUserName",
+                            index: "devUserName",
+                            width: 30,
+                            sortable: false
+                        }
+
+                        ],
+                    pager: "#orderPager",
+                    viewrecords: true,
+                    /* 	caption : "jqGrid 示例2", */
+                    add: true,
+                    edit: true,
+                    addtext: "Add",
+                    edittext: "Edit",
+                    hidegrid: false
+                });
+
+    });
+
+    $(window).bind("resize", function () {
+        var width = $(".jqGrid_wrapper").width();
+        $("#camList").setGridWidth(width)
+    });
+
+
+    function findData() {
+
+        var deviceId = $("#deviceId").val().trim();
+        var par = new Object();
+        if (deviceId.length > 0) {
+            par.deviceId = deviceId;
+        }
+
+
+
+        $('#camList').jqGrid('clearGridData');
+
+        $('#camList').jqGrid(
+            'setGridParam',
+            {
+                datatype: 'json',
+                mtype: 'post',
+                postData:par,
+                url: "../getCamera",
+
+            }).trigger('reloadGrid');
+
+
+    }
+
+
+    function addData() {
+
+        url = "addCamera.html";
+        layer.open({
+            type : 2,
+            skin : 'layer-ext-moon',
+            title : '新增摄像头',
+            maxmin : true,
+            shadeClose : true, //点击遮罩关闭层
+            area : [ '700px', '500px' ],
+            content : [ url, 'no' ]
+        });
+    }
+
+
+
+
+    function deleteData() {
+
+        var rowid = $("#camList").jqGrid("getGridParam", "selrow");
+        var selectData = $("#camList").jqGrid("getRowData", rowid);
+
+
+
+        if (typeof selectData.id == "undefined") {
+            swal({
+                title : "警告",
+                text : "未选择任何行，请先选中行，在执行此操作"
+            });
+            return;
+        }
+
+
+        var par ={
+            "deviceId":selectData.deviceId,
+            "id":selectData.id
+        }
+
+
+        swal({
+            title : "您确定要删除这条信息吗",
+            text : "删除后将无法恢复，请谨慎操作！",
+            type : "warning",
+            showCancelButton : true,
+            confirmButtonColor : "#DD6B55",
+            confirmButtonText : "删除",
+            closeOnConfirm : false
+        }, function() {
+
+            var data = GetData("../deleteCamera", par);
+
+            if (data.statusCode == 200) {
+                swal("删除成功！", "您已经永久删除了这条信息。", "success");
+            } else {
+                swal("删除失败！", "未能成功删除该信息。", "error");
+            }
+        });
+
+    }
+
+</script>
+
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+</html>

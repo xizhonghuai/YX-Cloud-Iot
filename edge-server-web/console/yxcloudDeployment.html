@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:28 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - 表单向导</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术" name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="css/plugins/steps/jquery.steps.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>部署向导</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="form_wizard.html#">
+                            <i class="fa fa-wrench"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-user">
+                            <li><a href="form_wizard.html#">选项1</a>
+                            </li>
+                            <li><a href="form_wizard.html#">选项2</a>
+                            </li>
+                        </ul>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <p>
+                        根据以下提示完成云部署
+                    </p>
+
+                    <form accept-charset="GB2312" action="../postmsg" class="wizard-big" id="form" method="post">
+                        <h1>基本信息</h1>
+                        <fieldset>
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <!--  <div class="form-group ">
+                                          <label>所在城市</label>
+                                          <div class="input-group">
+                                              <input class="form-control" id="cityId" name="cityId" placeholder="选择城市"
+                                                     type="text">
+                                              <div class="input-group-btn">
+                                                  <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                                          type="button">
+                                                      <span class="caret"></span>
+                                                  </button>
+                                                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </div>
+
+
+                                      <div class="form-group ">
+                                          <label>所在区域</label>
+                                          <div class="input-group">
+                                              <input class="form-control" id="areaId" name="areaId" placeholder="选择区域"
+                                                     type="text">
+                                              <div class="input-group-btn">
+                                                  <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                                          type="button">
+                                                      <span class="caret"></span>
+                                                  </button>
+                                                  <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                  </ul>
+                                              </div>
+                                          </div>
+                                      </div>-->
+
+
+                                    <div class="form-group">
+                                        <label>服务ID *</label>
+                                        <input class="form-control required" id="serviceId" name="serviceId" type="text"
+                                               placeholder="虚拟服务唯一标识">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>服务名称 *</label>
+                                        <input class="form-control required" id="serverName" name="serverName"
+                                               type="text" placeholder="服务名称">
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <label>设备接入协议</label>
+                                        <div class="input-group">
+                                            <input class="form-control" id="serverType" name="serverType"
+                                                   placeholder="选择服务类型"
+                                                   type="text">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                                        type="button">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="text-center">
+                                        <div style="margin-top: 20px">
+                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </fieldset>
+
+                        <h1>参数配置</h1>
+                        <fieldset>
+
+                            <div class="row">
+                                <div id="serPar" class="col-sm-8">
+
+                                    <div class="form-group">
+                                        <label>读写空闲时间 *</label>
+                                        <input class="form-control required" id="idle" name="idle" type="text"
+                                               value="300">
+                                    </div>
+
+                                    <div id="tcp-port" class="form-group">
+                                        <label>监听端口</label>
+                                        <input class="form-control" id="port" name="port" type="text"
+                                               ,placeholder="多个端口用逗号分隔">
+                                    </div>
+
+                                    <div id="usart-comname" class="form-group">
+                                        <label>串行端口</label>
+                                        <input class="form-control" id="comName" name="comName" type="text"
+                                               placeholder="com1">
+                                    </div>
+
+
+                                    <div id="usart-baud" class="form-group ">
+                                        <label>波特率</label>
+                                        <div class="input-group">
+                                            <input class="form-control required" id="baud" name="baud"
+                                                   placeholder="选择波特率"
+                                                   type="text">
+                                            <div class="input-group-btn">
+                                                <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                                        type="button">
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div id="mqtt-topic" class="form-group">
+                                        <label>主题</label>
+                                        <input class="form-control" id="topic" name="topic" type="text">
+                                    </div>
+
+
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="text-center">
+                                        <div style="margin-top: 20px">
+                                            <i class="fa fa-sign-in" style="font-size: 180px;color: #e5e5e5 "></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/staps/jquery.steps.min.js"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/messages_zh.min.js"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/common.js"></script>
+<script>
+
+
+    function addServer() {
+
+
+        var serverPar = {
+            "serverName": $("#serverName").val().trim(),
+            "serverType": $("#serverType").val().trim(),
+            "serviceId": $("#serviceId").val().trim(),
+            "idle": $("#idle").val().trim(),
+            "port": !!document.getElementById("port") ? $("#port").val().trim().split(",") : "",
+            "comName": !!document.getElementById("comName") ? $("#comName").val().trim() : "",
+            "baud": !!document.getElementById("baud") ? $("#baud").val().trim() : "",
+            "topic": !!document.getElementById("topic") ? $("#topic").val().trim() : "",
+        }
+
+
+        var data = yxpostData("/api/server/manage/createService", JSON.stringify(serverPar), "application/json");
+        console.log(data);
+        if (data.resultCode == 200) {
+            window.location.href = "sucessful.html";
+        } else {
+            window.location.href = "error.html?errmsg=" + data.msg;
+        }
+    }
+
+
+    $(document).ready(function () {
+        $("#form").steps({
+            bodyTag: "fieldset", onStepChanging: function (event, currentIndex, newIndex) {
+                /*      if (newIndex == 2){
+
+      //                    toastr.options = {
+      //                        "closeButton": true,
+      //                        "debug": false,
+      //                        "progressBar": true,
+      //                        "positionClass": "toast-top-right",
+      //                        "onclick": null,
+      //                        "showDuration": "400",
+      //                        "hideDuration": "1000",
+      //                        "timeOut": "7000",
+      //                        "extendedTimeOut": "1000",
+      //                        "showEasing": "swing",
+      //                        "hideEasing": "linear",
+      //                        "showMethod": "fadeIn",
+      //                        "hideMethod": "fadeOut"
+      //                    };
+      //                    toastr.info("将设备授权给指定选中账户，可授权多个账户", "特别提示");
+                      }*/
+
+
+                if (currentIndex > newIndex) {
+
+                    return true
+                }
+                if (newIndex === 2 && Number($("#age").val()) < 18) {
+                    return false
+                }
+                var form = $(this);
+                if (currentIndex < newIndex) {
+                    $(".body:eq(" + newIndex + ") label.error", form).remove();
+                    $(".body:eq(" + newIndex + ") .error", form).removeClass("error")
+                }
+                form.validate().settings.ignore = ":disabled,:hidden";
+                return form.valid()
+            }, onStepChanged: function (event, currentIndex, priorIndex) {
+                if (currentIndex === 1 && Number($("#age").val()) >= 18) {
+                    $(this).steps("next")
+                }
+                if (currentIndex === 1 && priorIndex === 2) {
+                    $(this).steps("previous")
+                }
+            }, onFinishing: function (event, currentIndex) {
+                var form = $(this);
+                form.validate().settings.ignore = ":disabled";
+
+                return form.valid()
+            }, onFinished: function (event, currentIndex) {
+
+
+                addServer();
+            }
+        }).validate({
+            errorPlacement: function (error, element) {
+                element.before(error)
+            }, rules: {confirm: {equalTo: "#password"}}
+        });
+
+
+        var usartComname = $("#usart-comname");
+        var usartBaud = $("#usart-baud");
+        var mqttToppic = $("#mqtt-topic");
+        var tcpPort = $("#tcp-port");
+
+        $("#usart-comname").remove();
+        $("#usart-baud").remove();
+        $("#mqtt-topic").remove();
+
+        var serverType;
+        var baud;
+
+        /*
+    public static final String TCP = "Tcp";
+    public static final String UDP = "Udp";
+    public static final String SERIAL = "Serial";
+    public static final String MQTT = "Mqtt";
+    */
+
+
+        $("#serverType").bsSuggest({
+            effectiveFields: ["serverType"],
+            keyField: "id",
+            data: {
+                'value': [{
+                    'id': 'Tcp',
+                    'serverType': 'TCP'
+                }, {
+                    'id': 'Udp',
+                    'serverType': 'UDP'
+                }, {
+                    'id': 'Http',
+                    'serverType': 'HTTP'
+                }, {
+                    'id': 'Mqtt',
+                    'serverType': 'MQTT'
+                }, {
+                    'id': 'Serial',
+                    'serverType': 'USART'
+                }
+
+                ]
+            }
+        }).on(
+            'onSetSelectValue',
+            function (e, keyword) {
+                console.log('onSetSelectValue: ', keyword);
+                serverType = keyword.id;
+
+                if ((serverType == "Tcp") || (serverType == "Udp") || (serverType == "Http")) {
+                    $("#usart-comname").remove();
+                    $("#usart-baud").remove();
+                    $("#mqtt-topic").remove();
+
+                    $("#serPar").append(tcpPort)
+
+
+                } else if (serverType == "Mqtt") {
+                    $("#usart-comname").remove();
+                    $("#usart-baud").remove();
+                    $("#tcp-port").remove();
+
+                    $("#serPar").append(mqttToppic);
+                } else if (serverType == "Serial") {
+
+                    $("#tcp-port").remove();
+                    $("#mqtt-topic").remove();
+
+                    $("#serPar").append(usartComname);
+                    $("#serPar").append(usartBaud);
+
+
+                    $("#baud").bsSuggest({
+                        effectiveFields: ["baud"],
+                        keyField: "baud",
+                        data: {
+                            'value': [{
+                                'id': '9600',
+                                'baud': '9600bps'
+                            }, {
+                                'id': '19200',
+                                'baud': '19200bps'
+                            }, {
+                                'id': '34800',
+                                'baud': '34800bps'
+                            }, {
+                                'id': '57600',
+                                'baud': '57600bps'
+                            }, {
+                                'id': '115200',
+                                'baud': '115200bps'
+                            }
+
+                            ]
+                        }
+                    }).on(
+                        'onSetSelectValue',
+                        function (e, keyword) {
+                            console.log('onSetSelectValue: ', keyword);
+                            baud = keyword.id;
+                        });
+
+
+                } else {
+
+                    $("#usart-comname").remove();
+                    $("#usart-baud").remove();
+                    $("#mqtt-topic").remove();
+
+                    $("#serPar").append(tcpPort);
+                }
+
+
+            });
+
+
+    });
+
+
+</script>
+<script charset="UTF-8" src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_wizard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:29 GMT -->
+</html>

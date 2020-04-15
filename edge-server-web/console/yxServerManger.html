@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - jqGird</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <!-- jqgrid-->
+    <link href="css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+    <style>
+        /* Additional style to fix warning dialog position */
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>服务信息</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="jqGrid_wrapper">
+                        <table id="serverList"></table>
+                        <div id="serverPager"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script src="js/common.js"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script>
+
+
+    $(function () {
+
+        $.jgrid.defaults.styleUI = "Bootstrap";
+
+        $("#serverList")
+            .jqGrid(
+                {
+                    url: yxUrl + "/api/server/manage/getServers",
+                    datatype: "json",
+                    mtype: 'GET',
+                    height: 450,
+                    autowidth: true,
+                    shrinkToFit: true,
+                    rowNum: 10,
+                    loadonce: true,
+                    jsonReader: {
+                        root: "data",
+                    },
+                    rowList: [10, 20, 30],
+                    colNames: ["运行状态", "服务ID", "服务名称", "协议类型","规则引擎",
+                        "创建日期", "操作"],
+                    colModel: [
+                        {
+                            name: "isStatus",
+                            index: "isStatus",
+                            width: 20,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+
+
+                                var status;
+                                if (cellValue) {
+                                    status = "<img src=\"images/zx.gif\"   title=\"运行\"/>";
+                                } else {
+                                    status = "<img src=\"images/lx.gif\"   title=\"停止\" />";
+                                }
+
+                                return status;
+                            }
+
+                        },
+                        {
+                            name: "serviceId",
+                            index: "serviceId",
+                            editable: true,
+                            width: 30,
+                            sortable: false
+
+                        },
+                        {
+                            name: "serviceName",
+                            index: "serviceName",
+                            width: 50,
+                            sortable: false,
+                            search: true
+                        },
+                        {
+                            name: "serverType",
+                            index: "serverType",
+                            width: 20,
+                            sortable: false,
+                            search: true
+                        },
+                        {
+                            name: "ruleEngineName",
+                            index: "ruleEngineName",
+                            width: 80,
+                            sortable: false,
+                            search: true,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+                                return "默认";
+                            }
+                        },
+                        {
+                            name: "createDate",
+                            index: "createDate",
+                            width: 80,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+                                return DateFormat(cellValue);
+                            }
+
+                        },
+                        {
+                            name: "isStatus",
+                            index: "isStatus",
+                            width: 80,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+
+
+                                var html1 = "<button onclick=\"controServer(" + cellValue +",\'"+rowObject.serviceId+ "\')\"  type=\"button\" class=\"btn btn-primary\">启动</button>";
+                                var html2 = "<button onclick=\"controServer(" + cellValue +",\'"+rowObject.serviceId+ "\')\"  type=\"button\" class=\"btn btn-primary\">停止</button>";
+//                                var html3 = "<button onclick=\"editServer(" + cellValue +",\'"+rowObject.serviceId+ "\')\"  type=\"button\" class=\"btn btn-primary\">修改</button>";
+//                                var html4 = "<button onclick=\"delServer(" + cellValue +",\'"+rowObject.serviceId+ "\')\"  type=\"button\" class=\"btn btn-primary\">删除</button>";
+
+
+
+
+                                if (cellValue) {
+
+                                    return html2;
+
+//                                    return html2+"&nbsp;"+html3+"&nbsp;"+html4;
+                                } else {
+                                    return html1;
+//                                    return html1+"&nbsp;"+html3+"&nbsp;"+html4;
+                                }
+
+
+                            }
+
+                        }],
+                    pager: "#serverPager",
+                    viewrecords: true,
+
+                    hidegrid: false
+                });
+
+    });
+
+
+    $(window).bind("resize", function () {
+        var width = $(".jqGrid_wrapper").width();
+        $("#serverList").setGridWidth(width)
+    });
+
+    function controServer(status,id) {
+
+        console.log(id);
+
+        var api = "";
+        if (status) {
+            api = "/api/server/manage/stopServer";
+        } else {
+            api = "/api/server/manage/startServer";
+        }
+
+
+
+        swal({
+            title : "您确定要执行此操作吗",
+//            text : "删除后将无法恢复，请谨慎操作！",
+            type : "warning",
+            showCancelButton : true,
+            confirmButtonColor : "#DD6B55",
+            confirmButtonText : "确定",
+            closeOnConfirm : false
+        }, function() {
+
+            var data = yxpostData(api,{"serviceId":id},"application/x-www-form-urlencoded");
+
+            if (data.resultCode == 200) {
+                swal("执行成功！", "success");
+
+                $("#serverList").jqGrid('clearGridData');
+                $('#serverList').jqGrid(
+                    'setGridParam',
+                    {
+                        datatype: 'json',
+                        mtype: 'GET',
+                        url: yxUrl + "/api/server/manage/getServers",
+
+                    }).trigger('reloadGrid');
+
+
+            } else {
+                swal("执行失败！", "error");
+            }
+        });
+
+
+
+    }
+
+    function editServer(status,id) {
+
+        if (status){
+
+            warningMsg("服务运行中，请先停止在操作！");
+            return;
+        }
+
+
+        var url = "";
+
+
+        url = "yxEditServer.html?deviceId=";
+        layer.open({
+            type : 2,
+            skin : 'layer-ext-moon',
+            title : '修改测站信息',
+            maxmin : true,
+            shadeClose : true, //点击遮罩关闭层
+            area : [ '800px', '600px' ],
+            content : [ url, 'yes' ]
+        });
+    }
+
+
+</script>
+
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+</html>

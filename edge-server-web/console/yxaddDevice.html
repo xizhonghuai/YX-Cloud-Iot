@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:15 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <link
+            href="css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"
+            rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+</head>
+
+
+<body class="panel-primary">
+<div class="wrapper wrapper-content animated fadeInRight ">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+
+                <div class="">
+
+                    <div class="col-sm-2">
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="row">
+
+
+                            <div class="form-group">
+                                <label>设备ID </label>
+                                <input class="form-control required" id="deviceId" name="deviceId"
+                                       type="text">
+                            </div>
+
+
+                            <div class="form-group">
+                                <label>设备名称</label>
+                                <input class="form-control" id="deviceName" name="deviceName" type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>描述</label>
+                                <input class="form-control" id="description" name="description" type="text">
+                            </div>
+
+
+                            <div class="form-group ">
+                                <label>解码器</label>
+                                <div class="input-group">
+                                    <input class="form-control" id="deCodePluginId" name="deCodePluginId"
+                                           placeholder="选择解码插件"
+                                           type="text">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-white dropdown-toggle" data-toggle="dropdown"
+                                                type="button">
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="hr-line-dashed"></div>
+                            <div align="center">
+
+                                <button class="btn btn-primary" onclick="addDevice()" type="button">提交</button>
+
+                            </div>
+
+
+                            <div class="hr-line-dashed"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+<script src="js/plugins/validate/jquery.validate.min.js"></script>
+<script src="js/plugins/validate/messages_zh.min.js"></script>
+<script src="js/demo/form-validate-demo.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    var plugins = new Array();
+    var curPluginId;
+    getPlugin();
+
+    $("#deCodePluginId").bsSuggest({
+
+        idField: "id",    //id字段
+        keyField: "name",   //key字段
+        effectiveFields: ["name", "fileName"],//显示的有效字段
+        effectiveFieldsAlias: {"name": "名称", "fileName": "文件"},
+        data: {
+            'value': plugins
+        },
+
+    }).on('onSetSelectValue', function (e, keyword) {
+
+        curPluginId = keyword.id;
+        console.log(curPluginId);
+
+    });
+
+
+    function getPlugin() {
+        var ret = yxgetData("/api/deccodeplugin/manage/get");
+        if (ret.resultCode == 200) {
+            plugins = ret.data;
+        } else {
+            errorMsg("解码插件获取失败！");
+        }
+    }
+
+
+    function addDevice() {
+
+        var deviceId = $("#deviceId").val().trim();
+        var deviceName = $("#deviceName").val().trim();
+        var description = $("#description").val().trim();
+
+        if (deviceId.length <= 0 || deviceName.length <= 0) {
+            warningMsg("关键属性不能为NULL");
+            return false;
+        }
+
+        var par = {
+            "deviceId":deviceId,
+            "deviceName":deviceName,
+            "description":description,
+            "deCodePluginId":curPluginId
+        }
+
+        var data = yxpostData("/api/device/manage/add", JSON.stringify(par), "application/json");
+        if (data.resultCode == 200) {
+
+            successMsg("添加成功");
+
+
+
+        } else {
+            errorMsg("添加失败！"+data.msg);
+        }
+
+
+    }
+
+
+    //    function postData() {
+    //
+    //        var request = new Object();
+    //
+    //        var deviceId = $("#deviceId").val().trim();
+    //        var cameraName = $("#cameraName").val().trim();
+    //        var devUserName = $("#devUserName").val().trim();
+    //        var devUserPassword = $("#devUserPassword").val().trim();
+    //        var devUserPassword_ = $("#devUserPassword_").val().trim();
+    //
+    //
+    //        if (deviceId.length <= 0 && cameraName.length <= 0 && devUserName.length <= 0 && devUserPassword.length <= 0) {
+    //            warningMsg("关键属性不能为NULL");
+    //
+    //            return false;
+    //        }
+    //
+    //        if (devUserPassword != devUserPassword_){
+    //            warningMsg("两次输入密码不一致");
+    //
+    //            return false;
+    //        }
+    //
+    //        request.deviceId = deviceId;
+    //        request.cameraName = cameraName;
+    //        request.devUserName = devUserName;
+    //        request.devUserPassword = devUserPassword;
+    //
+    //
+    //
+    //        var data = GetData("../addCamera", request);
+    //        if (data.statusCode == 200) {
+    //
+    //            successMsg("添加成功")
+    //
+    //        } else {
+    //            errorMsg("添加失败！");
+    //        }
+    //    }
+
+
+</script>
+
+
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/form_validate.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:19:16 GMT -->
+</html>
