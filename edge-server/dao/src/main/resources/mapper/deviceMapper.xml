@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mapper.DeviceMapper">
+    <resultMap id="BaseResultMap" type="com.model.DeviceDO">
+       <!-- <id column="id" jdbcType="INTEGER" property="id"/>-->
+        <result column="device_id" jdbcType="VARCHAR" property="deviceId"/>
+        <result column="device_name" jdbcType="VARCHAR" property="deviceName"/>
+        <result column="decodeplugin_id" jdbcType="INTEGER" property="deCodePluginId"/>
+        <result column="auth_code" jdbcType="VARCHAR" property="authCode"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="create_date" jdbcType="TIMESTAMP" property="createDate"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+     device_id,device_name,decodeplugin_id,auth_code,description,create_date
+  </sql>
+    <select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from device_info
+        where 1=1
+
+        <if test="deviceId != null">
+            and device_id = #{deviceId,jdbcType=VARCHAR}
+        </if>
+        <if test="deviceName != null">
+            and device_name = #{deviceName,jdbcType=VARCHAR}
+        </if>
+
+        <if test="authCode != null">
+            and auth_code = #{authCode,jdbcType=VARCHAR}
+        </if>
+
+    </select>
+
+
+    <insert id="insert" parameterType="com.model.DeviceDO">
+        insert into device_info (device_id,device_name,decodeplugin_id,auth_code,description,create_date )
+        values (
+        #{deviceId,jdbcType=VARCHAR},
+        #{deviceName,jdbcType=VARCHAR},
+        #{deCodePluginId,jdbcType=INTEGER},
+        #{authCode,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},
+        #{createDate,jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+
+    <update id="updateByPrimary" parameterType="java.util.Map">
+        update device_info
+        <set>
+            <if test="deviceName != null">
+                device_name = #{deviceName,jdbcType=VARCHAR},
+            </if>
+            <if test="deCodePluginId != null">
+                decodeplugin_id = #{deCodePluginId,jdbcType=INTEGER},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where device_id = #{deviceId,jdbcType=VARCHAR} and auth_code = #{authCode,jdbcType=VARCHAR}
+    </update>
+
+
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * FROM device_info
+    </select>
+
+</mapper>
