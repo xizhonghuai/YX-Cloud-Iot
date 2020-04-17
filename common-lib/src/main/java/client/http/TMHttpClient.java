@@ -35,21 +35,21 @@ import java.util.function.Consumer;
  **/
 public class TMHttpClient {
 
-    private static CloseableHttpAsyncClient httpclient = null;
+    private  CloseableHttpAsyncClient httpclient = null;
 
-    public static void init() throws IOReactorException {
+    public void init() throws IOReactorException {
         if (httpclient == null) {
             startClient(0);
         }
     }
 
-    public static void init(int timeout) throws IOReactorException {
+    public void init(int timeout) throws IOReactorException {
         if (httpclient == null) {
             startClient(timeout);
         }
     }
 
-    private static void startClient(int timeout) throws IOReactorException {
+    private void startClient(int timeout) throws IOReactorException {
         HttpAsyncClientBuilder builder = HttpAsyncClients.custom();
         if (timeout != 0) {
             RequestConfig requestConfig = RequestConfig.custom()
@@ -63,7 +63,7 @@ public class TMHttpClient {
         httpclient.start();
     }
 
-    public static void doPut(String uri, HashMap<String, String> header, String body,
+    public void doPut(String uri, HashMap<String, String> header, String body,
                              final Consumer<TMHttpCallbackPrams> callback) {
         HttpPut request = new HttpPut(uri);
 
@@ -97,13 +97,13 @@ public class TMHttpClient {
 
     }
 
-    public static String doPut(String uri, HashMap<String, String> header, String body) throws Exception {
+    public  String doPut(String uri, HashMap<String, String> header, String body) throws Exception {
         final String[] requestStr = {""};
         final String[] errorMsg = {""};
 
         CountDownLatch latch1 = new CountDownLatch(1);
 
-        TMHttpClient.doPut(uri, header, body, (parm) -> {
+        doPut(uri, header, body, (parm) -> {
             String resbody = parm.getResponseBody();
             if (parm.getStatusCode() == 200 || parm.getStatusCode() == 201) {
                 requestStr[0] = resbody;
@@ -123,7 +123,7 @@ public class TMHttpClient {
     }
 
 
-    public static void doPost(String uri, HashMap<String, String> header, String body,
+    public void doPost(String uri, HashMap<String, String> header, String body,
                               final Consumer<TMHttpCallbackPrams> callback) {
         HttpPost request = new HttpPost(uri);
 
@@ -157,13 +157,13 @@ public class TMHttpClient {
 
     }
 
-    public static String doPost(String uri, HashMap<String, String> header, String body) throws Exception {
+    public  String doPost(String uri, HashMap<String, String> header, String body) throws Exception {
         final String[] requestStr = {""};
         final String[] errorMsg = {""};
 
         CountDownLatch latch1 = new CountDownLatch(1);
 
-        TMHttpClient.doPost(uri, header, body, (parm) -> {
+        doPost(uri, header, body, (parm) -> {
             String resbody = parm.getResponseBody();
             if (parm.getStatusCode() == 200 || parm.getStatusCode() == 201) {
                 requestStr[0] = resbody;
@@ -182,7 +182,7 @@ public class TMHttpClient {
         return requestStr[0];
     }
 
-    public static void doDelete(String uri, HashMap<String, String> header,
+    public  void doDelete(String uri, HashMap<String, String> header,
                                 final Consumer<TMHttpCallbackPrams> callback) {
         final HttpDelete request = new HttpDelete(uri);
 
@@ -212,13 +212,13 @@ public class TMHttpClient {
         });
     }
 
-    public static String doDelete(String uri, HashMap<String, String> header) throws Exception {
+    public  String doDelete(String uri, HashMap<String, String> header) throws Exception {
         final String[] requestStr = {""};
         final String[] errorMsg = {""};
 
         CountDownLatch latch1 = new CountDownLatch(1);
 
-        TMHttpClient.doDelete(uri, header, (parm) -> {
+        doDelete(uri, header, (parm) -> {
             String resbody = parm.getResponseBody();
             if (parm.getStatusCode() == 200 || parm.getStatusCode() == 201) {
                 requestStr[0] = resbody;
@@ -237,7 +237,7 @@ public class TMHttpClient {
         return requestStr[0];
     }
 
-    public static void doGet(String uri, HashMap<String, String> header,
+    public  void doGet(String uri, HashMap<String, String> header,
                              final Consumer<TMHttpCallbackPrams> callback) {
 
         final HttpGet request = new HttpGet(uri);
@@ -268,14 +268,14 @@ public class TMHttpClient {
         });
     }
 
-    public static String doGet(String uri, HashMap<String, String> header) throws Exception {
+    public  String doGet(String uri, HashMap<String, String> header) throws Exception {
 
         final String[] requestStr = {""};
         final String[] errorMsg = {""};
 
         CountDownLatch latch1 = new CountDownLatch(1);
 
-        TMHttpClient.doGet(uri, header, (parm) -> {
+        doGet(uri, header, (parm) -> {
             String resbody = parm.getResponseBody();
             if (parm.getStatusCode() == 200 || parm.getStatusCode() == 201) {
                 requestStr[0] = resbody;
@@ -294,8 +294,8 @@ public class TMHttpClient {
         return requestStr[0];
     }
 
-    public static void close() throws IOException {
-        httpclient.close();
+    public  void close() throws IOException {
+      //  close();
     }
 
     private static StringEntity getRequestBody(String body) {
