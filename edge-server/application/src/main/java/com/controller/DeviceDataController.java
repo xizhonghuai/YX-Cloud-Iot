@@ -22,6 +22,7 @@ import java.util.List;
  * @Date 2020/3/25
  * @Version V1.0
  **/
+@CrossOrigin
 @Slf4j
 @RestController
 @RequestMapping("/api/device/data/")

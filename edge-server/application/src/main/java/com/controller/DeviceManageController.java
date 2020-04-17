@@ -104,14 +104,14 @@ public class DeviceManageController {
     @ApiOperation(value = "指令发送,广播方式", httpMethod = "POST")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "serviceId", dataType = "String", required = true, value = "服务id"),
-            @ApiImplicitParam(paramType = "body", name = "cmd", dataType = "Object", required = true, value = "数据"),
+            @ApiImplicitParam(paramType = "query", name = "cmd", dataType = "String", required = true, value = "数据"),
     })
     @ApiResponses({
             @ApiResponse(code = 400, message = "请求参数没填好"),
             @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对")
     })
     @RequestMapping(value = "/sendcmd", method = RequestMethod.POST)
-    public RestResult sendCmd(@RequestParam("serviceId") String serviceId, @RequestBody Object cmd) {
+    public RestResult sendCmd(@RequestParam("serviceId") String serviceId, @RequestParam("cmd") String cmd) {
         deviceManage.sendCmd(serviceId, cmd);
         return new RestResult();
     }
@@ -121,14 +121,14 @@ public class DeviceManageController {
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", name = "serviceId", dataType = "String", required = true, value = "服务id"),
             @ApiImplicitParam(paramType = "query", name = "regId", dataType = "String", required = true, value = "设备id"),
-            @ApiImplicitParam(paramType = "body", name = "cmd", dataType = "Object", required = true, value = "数据"),
+            @ApiImplicitParam(paramType = "query", name = "cmd", dataType = "String", required = true, value = "数据"),
     })
     @ApiResponses({
             @ApiResponse(code = 400, message = "请求参数没填好"),
             @ApiResponse(code = 404, message = "请求路径没有或页面跳转路径不对")
     })
     @RequestMapping(value = "/sendcmdbydevice", method = RequestMethod.POST)
-    public RestResult sendCmd(@RequestParam("serviceId") String serviceId, @RequestParam("regId") String regId, @RequestBody Object cmd) {
+    public RestResult sendCmd(@RequestParam("serviceId") String serviceId, @RequestParam("regId") String regId, @RequestParam("cmd") String cmd) {
         deviceManage.sendCmd(serviceId, regId, cmd);
         return new RestResult();
     }

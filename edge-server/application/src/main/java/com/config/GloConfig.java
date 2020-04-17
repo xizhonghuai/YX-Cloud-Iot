@@ -8,6 +8,7 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 
 import javax.servlet.MultipartConfigElement;
 
@@ -38,6 +39,12 @@ public class GloConfig {
         factory.setMaxFileSize("100MB");
         factory.setMaxRequestSize("100MB");
         return factory.createMultipartConfig();
+    }
+
+
+    @Bean
+    public ServerEndpointExporter serverEndpointExporter(){
+        return new ServerEndpointExporter();
     }
 
 

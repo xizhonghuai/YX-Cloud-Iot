@@ -1,5 +1,7 @@
 package com.msgpush;
 
+import java.util.HashMap;
+
 /**
  * @ClassName MessagePush
  * @Description: TODO
@@ -7,8 +9,9 @@ package com.msgpush;
  * @Date 2020/4/3
  * @Version V1.0
  **/
-public interface MessagePush {
-    void init();
-    void push(String msgType,Object message);
-    void close();
+public abstract class MessagePush {
+    public HashMap<String,Object> args = new HashMap<>();
+    public abstract void init();
+    public abstract void push(Object message);
+    public abstract void close();
 }

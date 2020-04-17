@@ -9,14 +9,14 @@ import com.msgpush.MessagePush;
  * @Date 2020/4/3
  * @Version V1.0
  **/
-public class AliCloudPush implements MessagePush {
+public class AliCloudPush extends MessagePush {
     @Override
     public void init() {
 
     }
 
     @Override
-    public void push(String msgType,Object message) {
+    public void push(Object message) {
 
     }
 

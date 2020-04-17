@@ -7,7 +7,6 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.apache.ibatis.session.defaults.DefaultSqlSessionFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -33,6 +32,7 @@ public class Dao {
     public void init() throws IOException {
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
+        System.out.println(Resources.getResourceAsFile(resource).getPath());
         sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         inputStream.close();
         resource = null;

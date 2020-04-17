@@ -98,4 +98,19 @@ public class BaseService<Mapper, Model> {
     }
 
 
+    public void deleteByPrimary(HashMap<String,Object> map){
+        UserDO userDO = (UserDO) Context.getInstance().getObj();
+        if (userDO == null) {
+            return;
+        }
+        map.put("authCode", userDO.getAuthCode());
+        Dao dao = (Dao) DaoBeans.getBean("dao");
+        SqlSession sqlSession = dao.getSqlSessionFactory().openSession();
+        BaseMapper baseMapper = (BaseMapper) sqlSession.getMapper(mapperClass);
+        baseMapper.deleteByPrimary(map);
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+
 }

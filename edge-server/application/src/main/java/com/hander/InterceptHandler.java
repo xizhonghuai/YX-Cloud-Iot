@@ -2,6 +2,7 @@ package com.hander;
 
 import com.alibaba.fastjson.JSON;
 import com.cache.DeviceShadow;
+import com.cache.PushCache;
 import com.init.SpringUtil;
 import com.model.DeviceDO;
 import com.model.DeviceMsgDO;
@@ -22,6 +23,7 @@ import org.springframework.util.StringUtils;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @ClassName InterceptHandler
@@ -79,7 +81,6 @@ public class InterceptHandler extends Handler {
 
     @Override
     public void messageReceived(IoSession session, Object message) {
-
         if (!(Boolean) session.getAttribute(ConstantUtils.REG_STATUS, false)) {
             try {
                 RegMsg regMsg = JSON.parseObject(message.toString(), RegMsg.class);
@@ -88,15 +89,15 @@ public class InterceptHandler extends Handler {
                     //todo device 授权校验逻辑
                     DeviceService deviceService = (DeviceService) SpringUtil.getBean("deviceService");
                     HashMap<String, Object> map = new HashMap<>();
-                    map.put("deviceId",regMsg.getRegId());
-                    map.put("authCode",regMsg.getAuthCode());
+                    map.put("deviceId", regMsg.getRegId());
+                    map.put("authCode", regMsg.getAuthCode());
                     List<DeviceDO> eqs = deviceService.select(map);
-                    if (eqs.isEmpty()){
+                    if (eqs.isEmpty()) {
                         session.write("Missing permission");
                         return;
                     }
                     iotSession.setDeviceId(regMsg.getRegId());
-                    iotSession.setAuthCode(regMsg.getAuthCode()==null?"@":regMsg.getAuthCode());//
+                    iotSession.setAuthCode(regMsg.getAuthCode());//
                     session.write("reg ok");
                     session.setAttribute(ConstantUtils.REG_STATUS, true);
                 } else {
@@ -105,7 +106,7 @@ public class InterceptHandler extends Handler {
             } catch (Exception e) {
                 session.write("JSON validation error.");
                 //   session.close(true);
-                e.printStackTrace();
+                //  e.printStackTrace();
             }
 
             return;
@@ -115,9 +116,13 @@ public class InterceptHandler extends Handler {
         businessHandler.messageReceived(iotSession, message);
 
 
-        //todo 业务数据多协议转发
-        MessagePush messagePush = new HttpPush();
-        messagePush.push(ConstantUtils.PUSH_DATA_TYPE, iotSession.getForwardMessage());
+        //业务数据多协议转发
+        if (iotSession.getForwardMessage() != null) {
+            PushCache pushCache = (PushCache) SpringUtil.getBean("pushCache");
+            List<MessagePush> messagePushes = pushCache.get(iotSession.getAuthCode());
+            messagePushes.forEach(messagePush -> messagePush.push(iotSession.getForwardMessage()));
+            iotSession.clearForwardMessage();
+        }
 
 
         //设备数据 记录
@@ -129,6 +134,7 @@ public class InterceptHandler extends Handler {
             deviceMsgDO.setMsgBody(JSON.toJSONString(iotSession.getToDBMessage()));
             deviceMsgDO.setCreateDate(new Date());
             deviceMsgService.insert(deviceMsgDO);
+            iotSession.clearDBMessage();
             //insert message
         }
 

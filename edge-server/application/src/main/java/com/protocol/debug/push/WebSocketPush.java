@@ -1,15 +1,17 @@
-package com.msgpush.cloud.onenet;
+package com.protocol.debug.push;
 
+import com.alibaba.fastjson.JSON;
 import com.msgpush.MessagePush;
+import com.protocol.debug.WSService;
 
 /**
- * @ClassName OneNetPush
+ * @ClassName WebSocketPush
  * @Description: TODO
  * @Author xizhonghuai
- * @Date 2020/4/3
+ * @Date 2020/4/16
  * @Version V1.0
  **/
-public class OneNetPush extends MessagePush {
+public class WebSocketPush extends MessagePush {
     @Override
     public void init() {
 
@@ -17,7 +19,7 @@ public class OneNetPush extends MessagePush {
 
     @Override
     public void push(Object message) {
-
+        WSService.sendMessage(JSON.toJSONString(message));
     }
 
     @Override

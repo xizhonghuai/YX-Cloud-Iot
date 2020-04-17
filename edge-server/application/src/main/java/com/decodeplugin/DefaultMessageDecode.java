@@ -37,6 +37,9 @@ public class DefaultMessageDecode implements MessageDecodePlugin {
             MsgBody msgBody = (MsgBody) JSON.parseObject(message.toString(),MsgBody.class);
             DeviceShadow.shadow.put(iotSession.getServiceId()+msgBody.getDeviceId(),msgBody);
             iotSession.setToDBMessage(msgBody);
+            iotSession.setForwardMessage(message);
+
+
         } catch (Exception e) {
             iotSession.sendMsg("err "+e.toString());
         }

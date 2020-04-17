@@ -56,7 +56,6 @@ public class YXDataSourceFactory extends PooledDataSourceFactory {
 
     @Override
     public DataSource getDataSource() {
-        TransactionTypeHolder.set(TransactionType.BASE);
 
        /* DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig, props);
 */

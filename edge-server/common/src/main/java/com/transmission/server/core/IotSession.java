@@ -1,5 +1,8 @@
 package com.transmission.server.core;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.msgpush.PushMsg;
 import com.toolutils.ConstantUtils;
 import org.apache.mina.core.session.IoSession;
 
@@ -26,6 +29,7 @@ public class IotSession {
     public IotSession(IoSession session) {
         this.session = session;
         session.setAttribute("forwardMessageContainer", new LinkedList<>());
+        forwardMessageContainer = (List<Object>)session.getAttribute("forwardMessageContainer");
         session.setAttribute("connectProperty",new ConnectProperty());
         connectProperty = (ConnectProperty) session.getAttribute("connectProperty");
         connectProperty.setAddress(session.getRemoteAddress().toString());
@@ -109,7 +113,18 @@ public class IotSession {
     }
 
     public Object getForwardMessage() {
-        return forwardMessage;
+        if (forwardMessage == null){
+            return null;
+        }
+        PushMsg pushMsg = new PushMsg();
+        pushMsg.setServiceId(getServiceId());
+        pushMsg.setDeviceId(getDeviceId());
+        pushMsg.setData(forwardMessage);
+        return pushMsg;
+    }
+
+    public void clearForwardMessage(){
+        this.forwardMessage = null;
     }
 
     public void setForwardMessage(Object forwardMessage) {
@@ -134,6 +149,10 @@ public class IotSession {
 
     public Object getToDBMessage() {
         return toDBMessage;
+    }
+
+    public void clearDBMessage(){
+        this.toDBMessage = null;
     }
 
     public void setToDBMessage(Object toDBMessage) {
