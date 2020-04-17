@@ -40,7 +40,7 @@
         <div class="col-sm-12">
             <div class="ibox ">
                 <div class="ibox-title">
-                    <h5>摄像头信息</h5>
+                    <h5>转发器信息</h5>
                 </div>
                 <div class="ibox-content">
 
@@ -49,8 +49,8 @@
 
                         <div class="col-lg-3">
 
-                            <input AUTOCOMPLETE="off" class="form-control" id="pluginId"
-                                   placeholder="转发器名称" type="text">
+                            <input AUTOCOMPLETE="off" class="form-control" id="name"
+                                   placeholder="名称" type="text">
 
                         </div>
 
@@ -75,10 +75,10 @@
                             <i class="fa fa-plus"></i>新增
                         </button>
                         &nbsp; &nbsp;
-<!--                        <button class="btn btn-info " onclick="updateDevice()"-->
-<!--                                type="button">-->
-<!--                            <i class="fa fa-edit"></i> 修改-->
-<!--                        </button>-->
+                        <!--                        <button class="btn btn-info " onclick="updateDevice()"-->
+                        <!--                                type="button">-->
+                        <!--                            <i class="fa fa-edit"></i> 修改-->
+                        <!--                        </button>-->
                         &nbsp; &nbsp;
                         <button class="btn btn-warning " onclick="deleteData()"
                                 type="button">
@@ -87,7 +87,7 @@
                     </p>
 
                     <div class="jqGrid_wrapper">
-                        <table id="camList"></table>
+                        <table id="pushList"></table>
                         <div id="orderPager"></div>
                     </div>
                 </div>
@@ -111,55 +111,77 @@
 
 
 <script>
+    var pushUrl = yxUrl+"/api/push/manage/";
 
     $(function () {
 
         $.jgrid.defaults.styleUI = "Bootstrap";
 
-        $("#camList")
+        $("#pushList")
             .jqGrid(
                 {
-                    url: "../getCamera",
+                    url: pushUrl+"get",
                     datatype: "json",
-                    mtype: 'POST',
+                    mtype: 'GET',
                     postData:null,
                     height: 450,
                     autowidth: true,
                     shrinkToFit: true,
                     rowNum: 10,
+                    jsonReader: {
+                        root: "data",
+                    },
 
                     rowList: [10, 20, 30],
-                    colNames: ["摄像头ID","测站编码","摄像头名称", "摄像头登录名称"],
+                    colNames: ["编号","名称","协议","初始化参数","说明", "创建日期"],
                     colModel: [
                         {
                             name: "id",
                             index: "id",
-                            width: 20,
+                            width: 10,
                             sortable: false,
                             key:true
                         },
                         {
-                            name: "deviceId",
-                            index: "deviceId",
-                            width: 30,
+                            name: "name",
+                            index: "name",
+                            width: 20,
                             sortable: false,
 
                         },
                         {
-                            name: "cameraName",
-                            index: "cameraName",
+                            name: "protocol",
+                            index: "protocol",
+                            width: 10,
+                            sortable: false,
+
+                        },
+                        {
+                            name: "params",
+                            index: "params",
+                            width: 90,
+                            sortable: false,
+
+                        },
+                        {
+                            name: "description",
+                            index: "description",
                             editable: true,
                             width: 40,
                             sortable: false
                         },
                         {
-                            name: "devUserName",
-                            index: "devUserName",
-                            width: 30,
-                            sortable: false
+                            name: "createDate",
+                            index: "createDate",
+                            width: 50,
+                            sortable: false,
+                            formatter: function (cellValue,
+                                                 options, rowObject) {
+                                return DateFormat(cellValue);
+                            }
                         }
 
-                        ],
+                    ],
                     pager: "#orderPager",
                     viewrecords: true,
                     /* 	caption : "jqGrid 示例2", */
@@ -174,29 +196,28 @@
 
     $(window).bind("resize", function () {
         var width = $(".jqGrid_wrapper").width();
-        $("#camList").setGridWidth(width)
+        $("#pushList").setGridWidth(width)
     });
 
 
     function findData() {
 
-        var deviceId = $("#deviceId").val().trim();
-        var par = new Object();
-        if (deviceId.length > 0) {
-            par.deviceId = deviceId;
+        var name = $("#name").val().trim();
+
+        if (name.length <=0){
+            return false;
         }
 
 
 
-        $('#camList').jqGrid('clearGridData');
+        $('#pushList').jqGrid('clearGridData');
 
-        $('#camList').jqGrid(
+        $('#pushList').jqGrid(
             'setGridParam',
             {
                 datatype: 'json',
-                mtype: 'post',
-                postData:par,
-                url: "../getCamera",
+                mtype: 'GET',
+                url: pushUrl+"get?name="+name
 
             }).trigger('reloadGrid');
 
@@ -206,14 +227,14 @@
 
     function addData() {
 
-        url = "addCamera.html";
+        url = "yxaddPush.html";
         layer.open({
             type : 2,
             skin : 'layer-ext-moon',
-            title : '新增摄像头',
+            title : '新增转发器',
             maxmin : true,
             shadeClose : true, //点击遮罩关闭层
-            area : [ '700px', '500px' ],
+            area : [ '1000px', '500px' ],
             content : [ url, 'no' ]
         });
     }
@@ -223,8 +244,10 @@
 
     function deleteData() {
 
-        var rowid = $("#camList").jqGrid("getGridParam", "selrow");
-        var selectData = $("#camList").jqGrid("getRowData", rowid);
+        var rowid = $("#pushList").jqGrid("getGridParam", "selrow");
+        var selectData = $("#pushList").jqGrid("getRowData", rowid);
+
+
 
 
 
@@ -238,7 +261,6 @@
 
 
         var par ={
-            "deviceId":selectData.deviceId,
             "id":selectData.id
         }
 
@@ -253,10 +275,26 @@
             closeOnConfirm : false
         }, function() {
 
-            var data = GetData("../deleteCamera", par);
+            var data = yxpostData("/api/push/manage/del", par,"application/x-www-form-urlencoded");
 
-            if (data.statusCode == 200) {
+
+            if (data.resultCode == 200) {
                 swal("删除成功！", "您已经永久删除了这条信息。", "success");
+
+
+                $('#pushList').jqGrid('clearGridData');
+
+                $('#pushList').jqGrid(
+                    'setGridParam',
+                    {
+                        datatype: 'json',
+                        mtype: 'GET',
+                        url: pushUrl+"get"
+
+                    }).trigger('reloadGrid');
+
+
+
             } else {
                 swal("删除失败！", "未能成功删除该信息。", "error");
             }

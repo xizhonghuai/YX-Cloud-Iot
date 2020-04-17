@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+<head>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+
+    <title>H+ 后台主题UI框架 - jqGird</title>
+    <meta content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台" name="keywords">
+    <meta content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术"
+          name="description">
+
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <!-- jqgrid-->
+    <link href="css/plugins/jqgrid/ui.jqgridffe4.css?0820" rel="stylesheet">
+    <!-- Sweet Alert -->
+    <link href="css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+    <link href="css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+
+    <style>
+        /* Additional style to fix warning dialog position */
+        #alertmod_table_list_2 {
+            top: 900px !important;
+        }
+    </style>
+
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>调试</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="row">
+
+                        <div class="col-lg-3">
+
+                            <input AUTOCOMPLETE="off" class="form-control" id="serviceId"
+                                   placeholder="serviceId" type="text">
+
+                        </div>
+
+
+                        <div class="col-lg-3">
+
+                            <input AUTOCOMPLETE="off" class="form-control" id="deviceId"
+                                   placeholder="ID" type="text">
+
+                        </div>
+
+
+                        <div class="col-lg-3">
+
+                            <input AUTOCOMPLETE="off" class="form-control" id="cmd"
+                                   placeholder="data" type="text">
+
+                        </div>
+
+
+                        <div class="col-lg-3">
+                            <div class="input-group">
+                                <button class="btn btn-primary " onclick="sendData()"
+                                        type="button">
+                                    <i class="fa "></i> <span class="bold">发送</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br>
+
+
+                    <form role="form">
+                        <div class="form-group">
+                            <textarea id="rec" style="height: 500px" class="form-control"></textarea>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery.min.js?v=2.1.4"></script>
+<script src="js/bootstrap.min.js?v=3.3.6"></script>
+<script src="js/plugins/jqgrid/i18n/grid.locale-cnffe4.js?0820"></script>
+<script src="js/plugins/jqgrid/jquery.jqGrid.minffe4.js?0820"></script>
+<script src="js/plugins/suggest/bootstrap-suggest.min.js"></script>
+<script src="js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="js/plugins/layerV3.1.1/layer.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/content.min.js?v=1.0.0"></script>
+
+
+<script type="text/javascript">
+
+
+    var websocket = null;
+    //判断当前浏览器是否支持WebSocket
+    if ('WebSocket' in window) {
+        websocket = new WebSocket("ws://127.0.0.1:8080/ws");
+    } else {
+        warningMsg("当前浏览器不支持webSocket");
+    }
+
+    //连接发生错误的回调方法
+    websocket.onerror = function () {
+
+        warningMsg("连接失败！");
+
+    };
+
+    //连接成功建立的回调方法
+    websocket.onopen = function () {
+
+
+    }
+
+    //连接关闭的回调方法
+    websocket.onclose = function () {
+
+        warningMsg("连接断开!")
+
+    }
+
+    //监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+    window.onbeforeunload = function () {
+        closeWebSocket();
+    }
+
+    //关闭WebSocket连接
+    function closeWebSocket() {
+        websocket.close();
+    }
+
+    //接收到消息的回调方法
+    websocket.onmessage = function (event) {
+        var rec = JSON.parse(event.data);
+
+
+
+        if (rec.deviceId == $("#deviceId").val().trim()){
+            var msg = $('#rec').val().trim() +"\r\n" + rec.data;
+            document.getElementById('rec').value = msg;
+        }
+
+
+    }
+
+    function sendData() {
+
+        var serviceId = $("#serviceId").val().trim();
+        var deviceId = $("#deviceId").val().trim();
+        var cmd = $("#cmd").val().trim();
+
+        if (serviceId.length<=0 || deviceId.length<=0){
+            warningMsg("参数为空");
+            return;
+        }
+
+        var par = {
+            "serviceId":serviceId,
+            "regId":deviceId,
+            "cmd":cmd
+        }
+
+
+
+
+
+        var data = yxpostData("/api/device/manage/sendcmdbydevice", par,"application/x-www-form-urlencoded");
+        if (data.resultCode == 200) {
+            successMsg("发送成功");
+        } else {
+            errorMsg("发送失败:"+data.msg)
+        }
+
+
+
+        
+    }
+
+
+</script>
+
+<script charset="UTF-8"
+        src="http://tajs.qq.com/stats?sId=9051096" type="text/javascript"></script>
+</body>
+
+
+<!-- Mirrored from www.zi-han.net/theme/hplus/table_jqgrid.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 20 Jan 2016 14:20:02 GMT -->
+</html>

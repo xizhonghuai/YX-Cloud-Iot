@@ -81,10 +81,10 @@ function yxpostData(Url, request,enType) {
 
 			ret = data;
 		},
-		error : function() {
+		error : function(e) {
 			ret = {
 				"resultCode":500,
-				"msg":""
+				"msg":e
 			}
 		}
 	});
@@ -123,8 +123,7 @@ function GetData(Url, request, retType, enType) {
 		type : 'post',
 		timeout : 5000,
 		async : false,
-		contentType : enType, // 默认值: "application/x-www-form-urlencoded;
-								// charset=UTF-8"
+		contentType : enType, // 默认值: "application/x-www-form-urlencoded;charset=UTF-8"
 		dataType : retType,
 		data : request,
 		success : function(data) {
