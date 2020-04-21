@@ -7,6 +7,6 @@ public interface MessageDecodePlugin {
 
     void messageReceived(IotSession iotSession, Object message);
 
-    void messageForward(Object message);
+
 
 }

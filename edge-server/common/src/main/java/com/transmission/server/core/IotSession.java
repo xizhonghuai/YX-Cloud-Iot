@@ -6,9 +6,7 @@ import com.msgpush.PushMsg;
 import com.toolutils.ConstantUtils;
 import org.apache.mina.core.session.IoSession;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @ClassName IotSession
@@ -26,13 +24,16 @@ public class IotSession {
     private Object toDBMessage;
     private ConnectProperty connectProperty;
 
-    public IotSession(IoSession session) {
+    public IotSession(IoSession session,String serviceId,String connectType) {
         this.session = session;
         session.setAttribute("forwardMessageContainer", new LinkedList<>());
         forwardMessageContainer = (List<Object>)session.getAttribute("forwardMessageContainer");
         session.setAttribute("connectProperty",new ConnectProperty());
         connectProperty = (ConnectProperty) session.getAttribute("connectProperty");
         connectProperty.setAddress(session.getRemoteAddress().toString());
+        connectProperty.setServiceId(serviceId);
+        connectProperty.setType(connectType);
+
     }
 
 
@@ -74,6 +75,17 @@ public class IotSession {
     }
 
     public void setDeviceId(String deviceId) {
+
+        Map<Long, IoSession> managedSessions = session.getService().getManagedSessions();
+//        Long sessionKey = WriteMsgUtils.regIdToSessionKey(managedSessions, deviceId);
+//        if (sessionKey != null){
+//            managedSessions.remove(sessionKey);
+//        }
+
+        IoSession sessionOld = WriteMsgUtils.regIdToSession(managedSessions, deviceId);
+        if (sessionOld != null){
+            sessionOld.close(true);
+        }
         setAttribute(ConstantUtils.REG_ID, deviceId);
         connectProperty.setRegId(deviceId);
         connectProperty.setRegisterTime(new Date());
@@ -87,9 +99,9 @@ public class IotSession {
         return connectProperty.getServiceId();
     }
 
-    public void setServiceId(String serviceId) {
-        connectProperty.setServiceId(serviceId);
-    }
+//    public void setServiceId(String serviceId) {
+//        connectProperty.setServiceId(serviceId);
+//    }
 
 
     public String getRemoteAddress() {
@@ -100,9 +112,9 @@ public class IotSession {
         return getDeviceId()+getRemoteAddress();
     }
 
-    public void setConnectType(String type) {
-        connectProperty.setType(type);
-    }
+//    public void setConnectType(String type) {
+//        connectProperty.setType(type);
+//    }
 
     public String getConnectType() {
         return connectProperty.getType();
@@ -127,7 +139,7 @@ public class IotSession {
         this.forwardMessage = null;
     }
 
-    public void setForwardMessage(Object forwardMessage) {
+    public void writeForwardMessage(Object forwardMessage) {
         this.forwardMessage = forwardMessage;
     }
 
@@ -155,7 +167,24 @@ public class IotSession {
         this.toDBMessage = null;
     }
 
-    public void setToDBMessage(Object toDBMessage) {
+    public void writeToDBMessage(Object toDBMessage) {
         this.toDBMessage = toDBMessage;
     }
+
+    public void ack(Object msg){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("deviceId",getDeviceId());
+        map.put("date",new Date());
+        map.put("ack",msg);
+        session.write(JSON.toJSONString(map));
+    }
+
+    public void ack(){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("deviceId",getDeviceId());
+        map.put("date",new Date());
+        map.put("ack","ok");
+        session.write(JSON.toJSONString(map));
+    }
+
 }

@@ -26,7 +26,7 @@ public class DeviceMsgDO {
   PRIMARY KEY (`id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
    */
-
+    @JSONField(ordinal = 1)
     private Integer id;
     @JSONField(serialize=false)
     private String serviceId;
@@ -37,10 +37,10 @@ public class DeviceMsgDO {
     @JSONField(serialize=false)
     private String msgBody;
 
-
+    @JSONField(ordinal = 2)
     private HashMap<String,Object> messageBody;
 
-    @JSONField(serialize=false)
+    @JSONField(ordinal = 3)
     private Date createDate;
 
     public DeviceMsgDO() {

@@ -56,11 +56,13 @@ public class YXDataSourceFactory extends PooledDataSourceFactory {
 
     @Override
     public DataSource getDataSource() {
+        
+        return super.dataSource;
 
-       /* DataSource dataSource = ShardingDataSourceFactory.createDataSource(dataSourceMap, shardingRuleConfig, props);
-*/
 
-        try {
+
+
+     /*   try {
             File yamlFile = Resources.getResourceAsFile("encryptRule.yml");
             YamlRootEncryptRuleConfiguration config = YamlEngine.unmarshal(yamlFile, YamlRootEncryptRuleConfiguration.class);
             EncryptRuleConfiguration ruleConfiguration =  new EncryptRuleConfigurationYamlSwapper().swap(config.getEncryptRule());
@@ -72,6 +74,6 @@ public class YXDataSourceFactory extends PooledDataSourceFactory {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return null;*/
     }
 }

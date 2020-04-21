@@ -3,6 +3,7 @@ package com.config;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * @ClassName MvcInterceptorConfig
@@ -12,12 +13,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
  * @Version V1.0
  **/
 @Configuration
-public class MvcInterceptorConfig extends WebMvcConfigurationSupport {
-
-
+public class MvcInterceptorConfig implements WebMvcConfigurer {
     @Override
-    protected void addInterceptors(InterceptorRegistry registry) {
+    public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(new MvcInterceptor());
-        super.addInterceptors(registry);
+
     }
+
+
 }

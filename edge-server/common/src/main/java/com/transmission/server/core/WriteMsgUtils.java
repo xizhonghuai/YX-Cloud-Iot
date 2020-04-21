@@ -35,6 +35,18 @@ public class WriteMsgUtils {
         return null;
     }
 
+    public static Long regIdToSessionKey(Map<Long, IoSession> mapList, String regId) {
+        IoSession session;
+        for (Map.Entry<Long, IoSession> entry : mapList.entrySet()) {
+            session = entry.getValue();
+            if (regId.equals(session.getAttribute(ConstantUtils.REG_ID, null))) {
+                return entry.getKey();
+            }
+
+        }
+        return null;
+    }
+
 
     public static void sendMsg(Map<Long, IoSession> mapList, Object msg) {
         mapList.forEach((aLong, ioSession) -> sendMsg(ioSession,msg));
@@ -45,6 +57,9 @@ public class WriteMsgUtils {
         session = regIdToSession(mapList, regId);
         sendMsg(session, msg);
     }
+
+
+
 
 
 }

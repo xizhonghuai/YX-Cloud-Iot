@@ -39,7 +39,6 @@ public class InterceptHandler extends Handler {
         super(businessHandler);
     }
 
-    private IotSession iotSession;
 
     private String serviceId;
 
@@ -57,21 +56,18 @@ public class InterceptHandler extends Handler {
     @Override
     public void sessionOpened(IoSession session) {
         log.info(session.getRemoteAddress() + "连接");
-        iotSession = new IotSession(session);
-        iotSession.setServiceId(serviceId);
-        iotSession.setConnectType(connectType);
-        businessHandler.sessionOpened(iotSession);
+        businessHandler.sessionOpened(new IotSession(session,serviceId,connectType));
     }
 
     @Override
     public void sessionClosed(IoSession session) {
-        businessHandler.sessionClosed(iotSession);
-        iotSession = null;
+        businessHandler.sessionClosed(new IotSession(session,serviceId,connectType));
+
     }
 
     @Override
     public void sessionIdle(IoSession session, IdleStatus status) {
-        businessHandler.sessionIdle(iotSession);
+        businessHandler.sessionIdle(new IotSession(session,serviceId,connectType));
     }
 
     @Override
@@ -81,32 +77,36 @@ public class InterceptHandler extends Handler {
 
     @Override
     public void messageReceived(IoSession session, Object message) {
+
+        IotSession iotSession = new IotSession(session, serviceId, connectType);
+
+
         if (!(Boolean) session.getAttribute(ConstantUtils.REG_STATUS, false)) {
             try {
                 RegMsg regMsg = JSON.parseObject(message.toString(), RegMsg.class);
                 if (!StringUtils.isEmpty(regMsg.getRegId()) && !StringUtils.isEmpty(regMsg.getAuthCode())) {
 
-                    //todo device 授权校验逻辑
+//                    todo device 授权校验逻辑
                     DeviceService deviceService = (DeviceService) SpringUtil.getBean("deviceService");
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("deviceId", regMsg.getRegId());
                     map.put("authCode", regMsg.getAuthCode());
                     List<DeviceDO> eqs = deviceService.select(map);
                     if (eqs.isEmpty()) {
-                        session.write("Missing permission");
+                        iotSession.ack("Missing permission");
                         return;
                     }
                     iotSession.setDeviceId(regMsg.getRegId());
                     iotSession.setAuthCode(regMsg.getAuthCode());//
-                    session.write("reg ok");
+                    iotSession.ack();
                     session.setAttribute(ConstantUtils.REG_STATUS, true);
                 } else {
-                    session.write("Please send the registration package.");
+                    iotSession.ack("Please send the registration package.");
                 }
             } catch (Exception e) {
-                session.write("JSON validation error.");
+                iotSession.ack("JSON validation error.");
                 //   session.close(true);
-                //  e.printStackTrace();
+                  e.printStackTrace();
             }
 
             return;

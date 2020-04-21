@@ -7,6 +7,7 @@ import com.transmission.business.BusinessHandler;
 import com.transmission.decodeplugin.MessageDecodePlugin;
 import com.transmission.server.core.IotSession;
 import lib.ToolUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import java.util.UUID;
  * @Version V1.0
  **/
 
+@Slf4j
 public class DefaultBusinessHandler implements BusinessHandler {
 
     @Override
@@ -38,7 +40,7 @@ public class DefaultBusinessHandler implements BusinessHandler {
         if (((Initialization)SpringUtil.getBean("initialization")).getCurDecodePlugin() == null){
             MessageDecodePlugin defaultMessageDecode = new DefaultMessageDecode();
             defaultMessageDecode.messageReceived(iotSession,message);
-            defaultMessageDecode.messageForward(message);
+
 
         } else {
 
@@ -60,11 +62,16 @@ public class DefaultBusinessHandler implements BusinessHandler {
     @Override
     public void sessionClosed(IotSession iotSession) {
 
+        log.info(iotSession.getDevice()+"关闭");
+
     }
 
     @Override
     public void sessionIdle(IotSession iotSession) {
         iotSession.close();
+        log.info(iotSession.getDevice()+"空闲");
+
+
     }
 
     @Override

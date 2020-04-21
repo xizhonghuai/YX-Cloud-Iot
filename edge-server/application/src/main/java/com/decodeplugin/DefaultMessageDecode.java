@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @ClassName DefaultMessageDecode
@@ -32,24 +34,23 @@ public class DefaultMessageDecode implements MessageDecodePlugin {
     @Override
     public void messageReceived(IotSession iotSession, Object message) {
         log.info( iotSession.getDevice()+":Received data:" + message.toString());
-        iotSession.sendMsg(message.toString());
+        iotSession.ack();
         try {
-            MsgBody msgBody = (MsgBody) JSON.parseObject(message.toString(),MsgBody.class);
-            DeviceShadow.shadow.put(iotSession.getServiceId()+msgBody.getDeviceId(),msgBody);
-            iotSession.setToDBMessage(msgBody);
-            iotSession.setForwardMessage(message);
+//            MsgBody msgBody = (MsgBody) JSON.parseObject(message.toString(),MsgBody.class);
+            HashMap<String,Object> msgMap = JSON.parseObject(message.toString(),HashMap.class);
+
+            DeviceShadow.shadow.put(iotSession.getServiceId()+iotSession.getDeviceId(),msgMap);
+            iotSession.writeToDBMessage(msgMap);
+            iotSession.writeForwardMessage(message);
 
 
         } catch (Exception e) {
-            iotSession.sendMsg("err "+e.toString());
+            iotSession.ack(e.toString());
+
         }
 
 
     }
 
-    @Override
-    public void messageForward(Object message) {
 
-
-    }
 }
