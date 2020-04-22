@@ -25,10 +25,20 @@ public class CodeTest {
 
     public static void main(String[] args) {
         ConnectProperty connectProperty = new ConnectProperty();
-        connectProperty.setServiceId("1234");
+        connectProperty.setRegId("1234");
         connectProperty.setServiceId("ser");
 
-        String[] arguments = new String[] {"python", "F:\\JAVA\\YX-Cloud-Iot\\pyscript\\decodeplugin\\com\\MyDeCodePlugin.py", "\"ww\"","ss"};
+        String json = JSON.toJSONString(connectProperty);
+
+
+
+        json = json.replace("\"","'");
+
+
+
+
+
+        String[] arguments = new String[] {"python", "F:\\JAVA\\YX-Cloud-Iot\\pyscript\\decodeplugin\\com\\MyDeCodePlugin.py",json,"ss"};
         try {
             Process process = Runtime.getRuntime().exec(arguments);
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream(),"GBK"));
