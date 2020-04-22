@@ -20,6 +20,8 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.springframework.util.StringUtils;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -102,6 +104,7 @@ public class InterceptHandler extends Handler {
                     session.setAttribute(ConstantUtils.REG_STATUS, true);
                 } else {
                     iotSession.ack("Please send the registration package.");
+
                 }
             } catch (Exception e) {
                 iotSession.ack("JSON validation error.");
