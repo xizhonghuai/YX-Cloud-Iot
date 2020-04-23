@@ -16,7 +16,7 @@ public interface BusinessHandler {
 
     void sessionIdle(IotSession iotSession);
 
-    void forward(Object message);
+
 
 
 }

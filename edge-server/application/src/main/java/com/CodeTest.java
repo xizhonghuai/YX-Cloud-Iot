@@ -21,42 +21,16 @@ public class CodeTest {
 
 
 
-
-
     public static void main(String[] args) {
-        ConnectProperty connectProperty = new ConnectProperty();
-        connectProperty.setRegId("1234");
-        connectProperty.setServiceId("ser");
-
-        String json = JSON.toJSONString(connectProperty);
-
-
-
-        json = json.replace("\"","'");
 
 
 
 
 
-        String[] arguments = new String[] {"python", "F:\\JAVA\\YX-Cloud-Iot\\pyscript\\decodeplugin\\com\\MyDeCodePlugin.py",json,"ss"};
-        try {
-            Process process = Runtime.getRuntime().exec(arguments);
-            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream(),"GBK"));
-            String line = null;
-            while ((line = in.readLine()) != null) {
-                System.out.println(line);
-            }
-            in.close();
-            //java代码中的process.waitFor()返回值为0表示我们调用python脚本成功，
-            //返回值为1表示调用python脚本失败，这和我们通常意义上见到的0与1定义正好相反
-            int re = process.waitFor();
-            if (re == 0){
-                System.out.println("调用成功");
-            }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+
+
 
 
 
