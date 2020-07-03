@@ -73,10 +73,5 @@ public class DefaultBusinessHandler implements BusinessHandler {
 
     }
 
-    @Override
-    public void forward(Object message) {
 
-
-
-    }
 }

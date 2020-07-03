@@ -19,10 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 public class MvcInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        UserDO userDO = (UserDO) request.getSession().getAttribute("token");
-        UserDO userDO = new UserDO();
-        userDO.setUsername("root");
-        userDO.setAuthCode("@");
+        UserDO userDO = (UserDO) request.getSession().getAttribute("token");
+//        UserDO userDO = new UserDO();
+//        userDO.setUsername("root");
+//        userDO.setAuthCode("@");
         Context.getInstance().setObj(userDO);
         return true;
     }

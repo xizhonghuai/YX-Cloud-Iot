@@ -138,7 +138,6 @@ public class ServerManageController {
         try {
             serverManage.createService(bootServerParameter);
         } catch (Exception e) {
-
             e.printStackTrace();
             return new RestResult("失败:" + e.getMessage(),"10011");
         }
