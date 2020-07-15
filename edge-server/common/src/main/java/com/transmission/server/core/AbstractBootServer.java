@@ -36,7 +36,10 @@ public abstract class AbstractBootServer {
 
     public AbstractBootServer(BootServerParameter bootServerParameter)  {
         this.bootServerParameter = bootServerParameter;
-        this.businessHandler = bootServerParameter.getHandler().businessHandler;
+        if (bootServerParameter.getHandler() != null){
+            this.businessHandler = bootServerParameter.getHandler().businessHandler;
+        }
+
     }
 
 
@@ -98,5 +101,7 @@ public abstract class AbstractBootServer {
         return this.bootServerParameter.getServiceId();
     }
 
-
+    public MqttClient getClient() {
+        return client;
+    }
 }

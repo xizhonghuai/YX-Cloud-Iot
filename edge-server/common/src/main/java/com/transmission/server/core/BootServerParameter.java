@@ -3,6 +3,7 @@ package com.transmission.server.core;
 import com.transmission.business.Handler;
 import lib.UserToken;
 import lombok.Data;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
 
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,7 @@ public class BootServerParameter {
     private String topic;
     private String userName;
     private String passWord;
+    private MqttCallback mqttCallback;
 
     private Date date = new Date();
 

@@ -28,8 +28,6 @@ public class WSService {
 		try {
 
 
-
-
 		} catch (Exception e) {
 			// TODO: handle exception
 			//session.getBasicRemote().sendText("error:" + e.toString());

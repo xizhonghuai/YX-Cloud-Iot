@@ -26,9 +26,18 @@ public class IotSession {
 
     public IotSession(IoSession session,String serviceId,String connectType) {
         this.session = session;
-        session.setAttribute("forwardMessageContainer", new LinkedList<>());
+
+        if (session.getAttribute("forwardMessageContainer") == null){
+
+            session.setAttribute("forwardMessageContainer", new LinkedList<>());
+        }
+
         forwardMessageContainer = (List<Object>)session.getAttribute("forwardMessageContainer");
-        session.setAttribute("connectProperty",new ConnectProperty());
+
+        if (session.getAttribute("connectProperty") == null){
+            session.setAttribute("connectProperty",new ConnectProperty());
+        }
+
         connectProperty = (ConnectProperty) session.getAttribute("connectProperty");
         connectProperty.setAddress(session.getRemoteAddress().toString());
         connectProperty.setServiceId(serviceId);
